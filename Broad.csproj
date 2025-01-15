@@ -18,6 +18,7 @@
     <ItemGroup>
       <Content Include=".github\workflows\ci.yml" />
       <Content Include=".runsettings" />
+      <Content Include="README.md" />
       <Content Include="scripts\setup" />
       <Content Include="scripts\setup.cmd" />
     </ItemGroup>
