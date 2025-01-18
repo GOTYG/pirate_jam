@@ -1,6 +1,6 @@
 using GdUnit4;
 
-namespace Broad;
+namespace PirateJam;
 
 [TestSuite]
 public class ExampleTest

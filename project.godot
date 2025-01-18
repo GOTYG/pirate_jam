@@ -10,12 +10,12 @@ config_version=5
 
 [application]
 
-config/name="Broad"
+config/name="PirateJam"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 
 [dotnet]
 
-project/assembly_name="Broad"
+project/assembly_name="PirateJam"
 
 [editor_plugins]
 
