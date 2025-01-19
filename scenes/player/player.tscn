@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bixeqh07t6dnb"]
+
+[ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_lltbs"]
+[ext_resource type="Texture2D" uid="uid://dvjivjv6aqaw4" path="res://art/sword.png" id="1_x1klt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r4t57"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_x1klt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qh3rb"]
+radius = 2.0
+
+[node name="Player" type="Area2D"]
+script = ExtResource("1_lltbs")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_r4t57")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_qh3rb")
