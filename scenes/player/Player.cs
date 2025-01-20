@@ -17,10 +17,16 @@ public partial class Player : Area2D
     {
         _screenSize = GetViewportRect().Size;
         _weapon.WeaponName = "Sword";
+        
+        var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        string[] mobTypes = animatedSprite2D.SpriteFrames.GetAnimationNames();
+        animatedSprite2D.Play(mobTypes[1]);
     }
 
-    public static Vector2I ConvertPosition(Vector2 vec)
+    public Vector2I ConvertPosition(Vector2 vec)
     {
+        var marker = GetParent().GetNode("StartMarker") as Marker2D;
+
         var intX = Mathf.FloorToInt(vec.X) - 49;
         var intY = Mathf.FloorToInt(vec.Y) - 49;
 
@@ -31,24 +37,42 @@ public partial class Player : Area2D
     public override void _Process(double delta)
     {
         var moveTo = Position;
+        bool isMoved = false;
         if (Input.IsActionJustPressed("move_down"))
         {
             moveTo.Y += 32;
+            isMoved = true;
+            Rotation = Mathf.Pi / 2;
         }
 
         if (Input.IsActionJustPressed("move_up"))
         {
             moveTo.Y -= 32;
+            isMoved = true;
+            Rotation = Mathf.Pi*3/2;
+
         }
 
         if (Input.IsActionJustPressed("move_left"))
         {
             moveTo.X -= 32;
+            isMoved = true;
+            Rotation = Mathf.Pi;
+
         }
 
         if (Input.IsActionJustPressed("move_right"))
         {
             moveTo.X += 32;
+            isMoved = true;
+            Rotation = 0;
+
+
+        }
+
+        if (!isMoved)
+        {
+            return;
         }
 
         //TODO getting parent node is pretty ugly, is there a better way?

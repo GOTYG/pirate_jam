@@ -1,7 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bixeqh07t6dnb"]
+[gd_scene load_steps=11 format=3 uid="uid://bixeqh07t6dnb"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_lltbs"]
 [ext_resource type="Texture2D" uid="uid://dvjivjv6aqaw4" path="res://art/sword.png" id="1_x1klt"]
+[ext_resource type="Texture2D" uid="uid://damtktdjsffee" path="res://art/animations/bow_shooting_animation_Shoot_0.png" id="3_yfscs"]
+[ext_resource type="Texture2D" uid="uid://kal8jqxydl54" path="res://art/animations/bow_shooting_animation_Shoot_1.png" id="4_7eeuf"]
+[ext_resource type="Texture2D" uid="uid://dkkpl3aitu4kd" path="res://art/animations/bow_shooting_animation_Shoot_2.png" id="5_slsrl"]
+[ext_resource type="Texture2D" uid="uid://cuuiu4p7p7bnt" path="res://art/animations/bow_shooting_animation_Shoot_3.png" id="6_2am23"]
+[ext_resource type="Texture2D" uid="uid://k3k8bat58ga2" path="res://art/animations/bow_shooting_animation_Shoot_4.png" id="7_6el6g"]
+[ext_resource type="Texture2D" uid="uid://bo38i0jpkao36" path="res://art/animations/bow_shooting_animation_Shoot_5.png" id="8_wy1x0"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r4t57"]
 animations = [{
@@ -11,6 +17,29 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_yfscs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7eeuf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_slsrl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2am23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_6el6g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_wy1x0")
+}],
+"loop": true,
+"name": &"shoot",
 "speed": 5.0
 }]
 
