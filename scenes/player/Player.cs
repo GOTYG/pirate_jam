@@ -19,16 +19,14 @@ public partial class Player : Area2D
         _weapon.WeaponName = "Sword";
     }
 
-    public Vector2I ConvertPosition(Vector2 vec)
+    public static Vector2I ConvertPosition(Vector2 vec)
     {
-        var intX = Mathf.FloorToInt(vec.X) - 49 +1;
-        var intY = Mathf.FloorToInt(vec.Y) - 49+1;
+        var intX = Mathf.FloorToInt(vec.X) - 49;
+        var intY = Mathf.FloorToInt(vec.Y) - 49;
 
-        return new Vector2I(intX / 32, intY / 32);
-
-
+        return new Vector2I((intX / 32) + 1, (intY / 32) + 1);
     }
-    
+
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
@@ -53,19 +51,18 @@ public partial class Player : Area2D
             moveTo.X += 32;
         }
 
+        //TODO getting parent node is pretty ugly, is there a better way?
         var map = GetParent().GetNode("Map") as TileMapLayer;
 
-        var tileDataIndex = ConvertPosition(Position);
+        var tileDataIndex = ConvertPosition(moveTo);
         var tiledata = map.GetCellTileData(tileDataIndex);
-        var type = tiledata.GetCustomData("type"); 
-        GD.Print(tileDataIndex);
-        GD.Print(type);
+        var customData = tiledata.GetCustomData("type").As<string>();
+
         
-        // if ( type == "wall")
-        // {
-        //     
-        // }
-        Move(moveTo);
+        if (customData == "floor")
+        {
+            Move(moveTo);
+        }
     }
 
     public void Move(Vector2 startPositionPosition)
