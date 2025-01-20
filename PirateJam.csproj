@@ -17,9 +17,14 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include=".github\workflows\ci.yml"/>
+        <Content Include=".gitignore" />
         <Content Include=".runsettings"/>
+        <Content Include="art\player.png" />
         <Content Include="README.md"/>
         <Content Include="scripts\setup"/>
         <Content Include="scripts\setup.cmd"/>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="scenes\maps\" />
     </ItemGroup>
 </Project>
