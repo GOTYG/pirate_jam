@@ -19,7 +19,15 @@ public partial class Player : Area2D
         _weapon.WeaponName = "Sword";
     }
 
-    public ConvertPosition
+    public Vector2I ConvertPosition(Vector2 vec)
+    {
+        var intX = Mathf.FloorToInt(vec.X) - 49 +1;
+        var intY = Mathf.FloorToInt(vec.Y) - 49+1;
+
+        return new Vector2I(intX / 32, intY / 32);
+
+
+    }
     
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
@@ -46,15 +54,14 @@ public partial class Player : Area2D
         }
 
         var map = GetParent().GetNode("Map") as TileMapLayer;
-        
-        var tileDataIndex = new Vector2I(Mathf.FloorToInt(moveTo.X - 49),
-            Mathf.FloorToInt(moveTo.Y -49 ));
+
+        var tileDataIndex = ConvertPosition(Position);
         var tiledata = map.GetCellTileData(tileDataIndex);
-        // // var type = tiledata.GetCustomData("type"); // This is the property assigned in the TileSet
+        var type = tiledata.GetCustomData("type"); 
         GD.Print(tileDataIndex);
-        GD.Print(tiledata);
+        GD.Print(type);
         
-        // if ( typeof(type == "string")
+        // if ( type == "wall")
         // {
         //     
         // }
