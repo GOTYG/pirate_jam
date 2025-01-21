@@ -13,10 +13,10 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_x1klt")
+"texture": ExtResource("3_yfscs")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"bow_idle",
 "speed": 5.0
 }, {
 "frames": [{
@@ -39,7 +39,15 @@ animations = [{
 "texture": ExtResource("8_wy1x0")
 }],
 "loop": true,
-"name": &"shoot",
+"name": &"bow_shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_x1klt")
+}],
+"loop": true,
+"name": &"sword_idle",
 "speed": 5.0
 }]
 
@@ -52,7 +60,7 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_r4t57")
-animation = &"idle"
+animation = &"bow_idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_qh3rb")
