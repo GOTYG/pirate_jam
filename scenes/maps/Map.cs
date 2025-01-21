@@ -11,7 +11,7 @@ public partial class Map : Node2D
     {
         var player = GetNode<Player>("Player");
         var map = GetNode<TileMapLayer>("Map");
-        var startPostion = GetNode<Marker2D>("StartMarker");
+        var startPosition = GetNode<Marker2D>("StartMarker");
         player.Position = startPosition.Position;
     }
 
