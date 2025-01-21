@@ -17,10 +17,10 @@ public partial class Player : Area2D
     {
         _screenSize = GetViewportRect().Size;
         _weapon.WeaponName = "Sword";
-        
+        _tileMap = GetParent().GetNode("Map") as TileMapLayer;
         var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        string[] mobTypes = animatedSprite2D.SpriteFrames.GetAnimationNames();
-        animatedSprite2D.Play(mobTypes[1]);
+        string[] weaponSprites = animatedSprite2D.SpriteFrames.GetAnimationNames();
+        animatedSprite2D.Play(weaponSprites[1]);
     }
 
     public static Vector2I ConvertPosition(Vector2 vec)
@@ -31,35 +31,89 @@ public partial class Player : Area2D
         return new Vector2I((intX / 32) + 1, (intY / 32) + 1);
     }
 
+    public enum Direction
+    {
+        North,
+        East,
+        South,
+        West,
+    }
+
+
+    public void BowMovement(Direction direction)
+    {
+        var moveTo = Position;
+
+        while (true)
+        {
+            switch (direction)
+            {
+                case Direction.North:
+                    moveTo.Y -= 32;
+                    break;
+                case Direction.East:
+                    moveTo.X += 32;
+                    break;
+                case Direction.South:
+                    moveTo.Y += 32;
+                    break;
+                case Direction.West:
+                    moveTo.X -= 32;
+                    break;
+            }
+
+
+            var tileDataIndex = ConvertPosition(moveTo);
+            var tiledata = _tileMap.GetCellTileData(tileDataIndex);
+            var customData = tiledata.GetCustomData("type").As<string>();
+
+
+            if (customData == "floor")
+            {
+                Move(moveTo);
+            }
+
+
+            if (customData == "wall")
+            {
+                break;
+            }
+        }
+    }
+
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        var moveTo = Position;
         bool isMoved = false;
+
+        Direction direction = Direction.East;
         if (Input.IsActionJustPressed("move_down"))
         {
-            moveTo.Y += 32;
+            direction = Direction.South;
             isMoved = true;
             Rotation = Mathf.Pi / 2;
         }
 
         if (Input.IsActionJustPressed("move_up"))
         {
-            moveTo.Y -= 32;
+            direction = Direction.North;
+
             isMoved = true;
-            Rotation = Mathf.Pi*3/2;
+            Rotation = Mathf.Pi * 3 / 2;
         }
 
         if (Input.IsActionJustPressed("move_left"))
         {
-            moveTo.X -= 32;
+            direction = Direction.West;
+
             isMoved = true;
             Rotation = Mathf.Pi;
         }
 
         if (Input.IsActionJustPressed("move_right"))
         {
-            moveTo.X += 32;
+            direction = Direction.East;
+
             isMoved = true;
             Rotation = 0;
         }
@@ -69,18 +123,8 @@ public partial class Player : Area2D
             return;
         }
 
-        //TODO getting parent node is pretty ugly, is there a better way?
-        var map = GetParent().GetNode("Map") as TileMapLayer;
 
-        var tileDataIndex = ConvertPosition(moveTo);
-        var tiledata = map.GetCellTileData(tileDataIndex);
-        var customData = tiledata.GetCustomData("type").As<string>();
-
-        
-        if (customData == "floor")
-        {
-            Move(moveTo);
-        }
+        BowMovement(direction);
     }
 
     public void Move(Vector2 position)
