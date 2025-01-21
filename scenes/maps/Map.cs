@@ -12,7 +12,7 @@ public partial class Map : Node2D
         var player = GetNode<Player>("Player");
         var map = GetNode<TileMapLayer>("Map");
         var startPostion = GetNode<Marker2D>("StartMarker");
-        player.Position = map.MapToLocal(map.LocalToMap(startPostion.Position));
+        player.Position = startPosition.Position;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
