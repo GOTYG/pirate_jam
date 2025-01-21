@@ -127,9 +127,9 @@ public partial class Player : Area2D
         BowMovement(direction);
     }
 
-    public void Move(Vector2 startPositionPosition)
+    public void Move(Vector2 position)
     {
-        Position = startPositionPosition;
+        Position = position;
         GD.Print($"Moving to: {Position}");
     }
 }
