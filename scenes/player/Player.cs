@@ -23,10 +23,8 @@ public partial class Player : Area2D
         animatedSprite2D.Play(mobTypes[1]);
     }
 
-    public Vector2I ConvertPosition(Vector2 vec)
+    public static Vector2I ConvertPosition(Vector2 vec)
     {
-        var marker = GetParent().GetNode("StartMarker") as Marker2D;
-
         var intX = Mathf.FloorToInt(vec.X) - 49;
         var intY = Mathf.FloorToInt(vec.Y) - 49;
 
@@ -50,7 +48,6 @@ public partial class Player : Area2D
             moveTo.Y -= 32;
             isMoved = true;
             Rotation = Mathf.Pi*3/2;
-
         }
 
         if (Input.IsActionJustPressed("move_left"))
@@ -58,7 +55,6 @@ public partial class Player : Area2D
             moveTo.X -= 32;
             isMoved = true;
             Rotation = Mathf.Pi;
-
         }
 
         if (Input.IsActionJustPressed("move_right"))
@@ -66,8 +62,6 @@ public partial class Player : Area2D
             moveTo.X += 32;
             isMoved = true;
             Rotation = 0;
-
-
         }
 
         if (!isMoved)
@@ -89,9 +83,9 @@ public partial class Player : Area2D
         }
     }
 
-    public void Move(Vector2 startPositionPosition)
+    public void Move(Vector2 position)
     {
-        Position = startPositionPosition;
+        Position = position;
         GD.Print($"Moving to: {Position}");
     }
 }
