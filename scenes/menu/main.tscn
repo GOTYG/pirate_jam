@@ -1,9 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://drp6nip5fbgx7"]
+[gd_scene load_steps=3 format=3 uid="uid://drp6nip5fbgx7"]
 
-[ext_resource type="PackedScene" uid="uid://tqmycnx3nn3a" path="res://scenes/maps/map.tscn" id="1_dj4vl"]
+[ext_resource type="PackedScene" uid="uid://tqmycnx3nn3a" path="res://scenes/maps/map_1.tscn" id="1_dj4vl"]
 [ext_resource type="FontFile" uid="uid://cifqecryg7771" path="res://art/fonts/Macondo-Regular.ttf" id="2_oqd1f"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_0c68y"]
 
 [node name="Main" type="Node"]
 
@@ -15,15 +13,12 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0627451, 0.121569, 0.145098, 1)
 
-[node name="Map" parent="." instance=ExtResource("1_dj4vl")]
-
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="LevelHint" type="NinePatchRect" parent="HUD"]
-offset_left = 27.0
-offset_top = 227.0
-offset_right = 220.0
-offset_bottom = 267.0
+offset_left = 1.0
+offset_right = 293.0
+offset_bottom = 24.0
 size_flags_horizontal = 6
 size_flags_vertical = 6
 metadata/_edit_group_ = true
@@ -44,30 +39,4 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_oqd1f")
 text = "Press R to restart the level"
 
-[node name="GameDiaglog" type="NinePatchRect" parent="HUD"]
-visible = false
-offset_left = 58.0
-offset_top = 105.0
-offset_right = 251.0
-offset_bottom = 145.0
-size_flags_horizontal = 6
-size_flags_vertical = 6
-texture = SubResource("CanvasTexture_0c68y")
-metadata/_edit_group_ = true
-
-[node name="Label" type="Label" parent="HUD/GameDiaglog"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -87.0
-offset_top = -11.5
-offset_right = 87.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("2_oqd1f")
-text = "You Beat the Level!"
+[node name="Map_1" parent="." instance=ExtResource("1_dj4vl")]

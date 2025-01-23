@@ -6,6 +6,10 @@ namespace PirateJam.scenes.player;
 
 public partial class Player : Area2D
 {
+    [Signal]
+    public delegate void LevelCompleteEventHandler();
+    
+    
     private PlayerWeapon _weapon;
     private TileMapLayer _tileMap;
     private AnimatedSprite2D _spriteAnimation;
@@ -27,6 +31,7 @@ public partial class Player : Area2D
         if (_tileMap.GetCellTileData(_GetCurrentTilePosition()).GetCustomData("type").AsString() == "door")
         {
             GD.Print("CUM");
+            EmitSignal(SignalName.LevelComplete, GetParent().SceneFilePath);
             // TODO Level Cumplete
         }
 
@@ -37,7 +42,7 @@ public partial class Player : Area2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _weapon = new Whip();
+        _weapon = new Bow();
         _directionSprite = GetNode<Sprite2D>("Arrow");
         _spriteAnimation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _spriteAnimation.Play(_weapon.Animations["idle"]);
