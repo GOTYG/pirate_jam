@@ -3,20 +3,17 @@ using Godot;
 
 namespace PirateJam.scenes.player;
 
-public abstract class SpecialWeapon : PlayerWeapon
-{
-    public abstract void SpecialMove(Vector2I direction);
-}
 
 public abstract class PlayerWeapon
 {
-    public virtual bool HasSpecial() => false;
+    public abstract WeaponType Name { get; }
     public abstract Dictionary<string, StringName> Animations { get; }
     public abstract Vector2I GetTargetPosition(Vector2I direction, TileMapLayer tileMap, Vector2I playerPosition);
 }
 
 public class Sword : PlayerWeapon
 {
+    public override WeaponType Name => WeaponType.Sword;
     public override Dictionary<string, StringName> Animations { get; } = new()
     {
         { "idle", "sword_idle" },
@@ -33,6 +30,7 @@ public class Sword : PlayerWeapon
 
 public class Bow : PlayerWeapon
 {
+    public override WeaponType Name => WeaponType.Bow;
     public override Dictionary<string, StringName> Animations { get; } = new()
     {
         { "idle", "bow_idle" },
@@ -54,10 +52,9 @@ public class Bow : PlayerWeapon
     }
 }
 
-public class Whip : SpecialWeapon
+public class Whip : PlayerWeapon
 {
-    public override bool HasSpecial() => true;
-
+    public override WeaponType Name => WeaponType.Whip;
     public override Dictionary<string, StringName> Animations { get; } = new()
     {
         { "idle", "whip_idle" },
@@ -68,8 +65,5 @@ public class Whip : SpecialWeapon
         return playerPosition;
     }
 
-    public override void SpecialMove(Vector2I direction)
-    {
-        GD.Print("ooooush!");
-    }
+
 }

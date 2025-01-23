@@ -6,6 +6,11 @@ namespace PirateJam.scenes.player;
 
 public partial class Player : Area2D
 {
+    
+    [Signal]
+    public delegate void WhipEventHandler();
+    
+    
     private PlayerWeapon _weapon;
     private TileMapLayer _tileMap;
     private AnimatedSprite2D _spriteAnimation;
@@ -64,12 +69,8 @@ public partial class Player : Area2D
             SelectDirection(Vector2I.Right);
         else if (Input.IsActionJustPressed("move_confirm") && _directionSprite.Visible)
         {
-            if (_weapon.HasSpecial())
-            {
-                var special = (SpecialWeapon)_weapon;
-                special.SpecialMove(_selectedDirection);
-            }
-            
+            ProcessSpecialMove();
+
             MovePlayer(_selectedDirection);
         }
     }
@@ -96,6 +97,19 @@ public partial class Player : Area2D
 
         // Move in linear format
         _globalTargetPosition = _tileMap.MapToLocal(targetPosition);
+    }
+
+    public void ProcessSpecialMove()
+    {
+
+        switch (_weapon.Name)
+        {
+            case WeaponType.Whip:
+                EmitSignal(SignalName.Whip, Position);
+                break;
+            default:
+                break;
+        }
     }
 
     private Vector2I _GetCurrentTilePosition()
