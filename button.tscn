@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://s5bysbi848gh"]
+
+[ext_resource type="Texture2D" uid="uid://fp1rlgpd12xu" path="res://art/button.png" id="1_r3vus"]
+[ext_resource type="Texture2D" uid="uid://bej13jwqtrvec" path="res://art/button_pressed.png" id="2_x1rju"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_amk7d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_r3vus")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_x1rju")
+}],
+"loop": true,
+"name": &"pressed",
+"speed": 5.0
+}]
+
+[node name="Button" type="AnimatedSprite2D"]
+position = Vector2(238, 46)
+sprite_frames = SubResource("SpriteFrames_amk7d")

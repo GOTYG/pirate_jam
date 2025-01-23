@@ -3,14 +3,17 @@ using Godot;
 
 namespace PirateJam.scenes.player;
 
+
 public abstract class PlayerWeapon
 {
+    public abstract WeaponType Name { get; }
     public abstract Dictionary<string, StringName> Animations { get; }
     public abstract Vector2I GetTargetPosition(Vector2I direction, TileMapLayer tileMap, Vector2I playerPosition);
 }
 
 public class Sword : PlayerWeapon
 {
+    public override WeaponType Name => WeaponType.Sword;
     public override Dictionary<string, StringName> Animations { get; } = new()
     {
         { "idle", "sword_idle" },
@@ -27,6 +30,7 @@ public class Sword : PlayerWeapon
 
 public class Bow : PlayerWeapon
 {
+    public override WeaponType Name => WeaponType.Bow;
     public override Dictionary<string, StringName> Animations { get; } = new()
     {
         { "idle", "bow_idle" },
@@ -46,4 +50,20 @@ public class Bow : PlayerWeapon
 
         return targetTile;
     }
+}
+
+public class Whip : PlayerWeapon
+{
+    public override WeaponType Name => WeaponType.Whip;
+    public override Dictionary<string, StringName> Animations { get; } = new()
+    {
+        { "idle", "whip_idle" },
+    };
+
+    public override Vector2I GetTargetPosition(Vector2I direction, TileMapLayer tileMap, Vector2I playerPosition)
+    {
+        return playerPosition;
+    }
+
+
 }

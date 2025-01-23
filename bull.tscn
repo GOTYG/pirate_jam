@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://08ylpklbdwfi"]
+
+[ext_resource type="Script" path="res://Bull.cs" id="1_dogvx"]
+[ext_resource type="Texture2D" uid="uid://6c3lee5hkp82" path="res://art/bull.png" id="1_gg76a"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fnijn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gg76a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Bull" type="Sprite2D"]
+script = ExtResource("1_dogvx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_fnijn")

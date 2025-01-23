@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bixeqh07t6dnb"]
+[gd_scene load_steps=13 format=3 uid="uid://bixeqh07t6dnb"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_lltbs"]
 [ext_resource type="Texture2D" uid="uid://dvjivjv6aqaw4" path="res://art/sword.png" id="1_x1klt"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://k3k8bat58ga2" path="res://art/animations/bow_shooting_animation_Shoot_4.png" id="7_6el6g"]
 [ext_resource type="Texture2D" uid="uid://bo38i0jpkao36" path="res://art/animations/bow_shooting_animation_Shoot_5.png" id="8_wy1x0"]
 [ext_resource type="Texture2D" uid="uid://pgo10hax72q0" path="res://art/arrow_selected.png" id="9_4sbsi"]
+[ext_resource type="Texture2D" uid="uid://c8dkk7s0vgjf7" path="res://art/whip.png" id="9_dgiam"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r4t57"]
 animations = [{
@@ -50,6 +51,14 @@ animations = [{
 "loop": true,
 "name": &"sword_idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_dgiam")
+}],
+"loop": true,
+"name": &"whip_idle",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qh3rb"]
@@ -61,7 +70,7 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_r4t57")
-animation = &"bow_idle"
+animation = &"whip_idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_qh3rb")
