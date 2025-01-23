@@ -50,9 +50,6 @@ public partial class Player : Area2D
         if (Input.IsActionJustPressed("restart"))
             GetTree().ReloadCurrentScene();
 
-        if (_weapon.)
-        {
-        }
 
         if (_isMoving)
             return;
@@ -66,7 +63,15 @@ public partial class Player : Area2D
         else if (Input.IsActionJustPressed("move_right"))
             SelectDirection(Vector2I.Right);
         else if (Input.IsActionJustPressed("move_confirm") && _directionSprite.Visible)
+        {
+            if (_weapon.HasSpecial())
+            {
+                var special = (SpecialWeapon)_weapon;
+                special.SpecialMove(_selectedDirection);
+            }
+            
             MovePlayer(_selectedDirection);
+        }
     }
 
     public void SelectDirection(Vector2I direction)
