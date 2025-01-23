@@ -1,9 +1,31 @@
-[gd_scene load_steps=5 format=4 uid="uid://tqmycnx3nn3a"]
+[gd_scene load_steps=9 format=4 uid="uid://tqmycnx3nn3a"]
 
 [ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_acsen"]
 [ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="2_eosdw"]
 [ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="3_fsjxr"]
 [ext_resource type="PackedScene" uid="uid://08ylpklbdwfi" path="res://bull.tscn" id="4_dvo4p"]
+[ext_resource type="PackedScene" uid="uid://s5bysbi848gh" path="res://button.tscn" id="5_1aodm"]
+[ext_resource type="Texture2D" uid="uid://bqe0fbeym0g" path="res://art/bridge_down.png" id="6_yidlo"]
+[ext_resource type="Texture2D" uid="uid://b3rbniocyp1ot" path="res://art/bride_up.png" id="7_sud0b"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mn745"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_yidlo")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_sud0b")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_acsen")
@@ -18,6 +40,13 @@ position = Vector2(48, 48)
 [node name="Player" parent="." instance=ExtResource("3_fsjxr")]
 
 [node name="Bull" parent="." instance=ExtResource("4_dvo4p")]
-position = Vector2(208, 45)
+position = Vector2(108, 44)
+
+[node name="Button" parent="." instance=ExtResource("5_1aodm")]
+
+[node name="Bridge" type="AnimatedSprite2D" parent="."]
+position = Vector2(144, 139)
+sprite_frames = SubResource("SpriteFrames_mn745")
+animation = &"down"
 
 [connection signal="Whip" from="Player" to="Bull" method="OnPlayerWhip"]

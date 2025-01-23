@@ -15,6 +15,7 @@ public partial class Bull : Sprite2D
         var deltaX = whipPos.X - Position.X;
         var deltaY = whipPos.Y - Position.Y;
         Vector2I direction;
+        
 
         if (Math.Abs(deltaX) > Math.Abs(deltaY))
         {
@@ -26,7 +27,9 @@ public partial class Bull : Sprite2D
             if (Mathf.Sign(deltaY) == 1) direction = Vector2I.Up;
             else direction = Vector2I.Down;
         }
-
+        
+        //TODO update rotation/mirror image
+        
         var currentTile = _GetCurrentTilePosition();
         var curTileData = _tileMap.GetCellTileData(currentTile);
         var nextTileData = _tileMap.GetCellTileData(currentTile + direction);
@@ -38,6 +41,11 @@ public partial class Bull : Sprite2D
             curTileData = nextTileData;
             currentTile += direction;
             nextTileData = _tileMap.GetCellTileData(currentTile+direction);
+        }
+
+        if (curTileData.GetCustomData("type").AsString() == "pit")
+        {
+            // curTileData.SetCustomData("type","floor");
         }
 
         _globalTargetPosition = _tileMap.MapToLocal(currentTile);
@@ -71,7 +79,6 @@ public partial class Bull : Sprite2D
     public override void _Ready()
     {
         _tileMap = GetParent().GetNode<TileMapLayer>("Map");
-        GD.Print(_tileMap);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

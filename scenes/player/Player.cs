@@ -6,11 +6,10 @@ namespace PirateJam.scenes.player;
 
 public partial class Player : Area2D
 {
-    
     [Signal]
     public delegate void WhipEventHandler();
-    
-    
+
+
     private PlayerWeapon _weapon;
     private TileMapLayer _tileMap;
     private AnimatedSprite2D _spriteAnimation;
@@ -42,7 +41,7 @@ public partial class Player : Area2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _weapon = new Whip();
+        _weapon = new Sword();
         _directionSprite = GetNode<Sprite2D>("Arrow");
         _spriteAnimation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _spriteAnimation.Play(_weapon.Animations["idle"]);
@@ -54,6 +53,10 @@ public partial class Player : Area2D
     {
         if (Input.IsActionJustPressed("restart"))
             GetTree().ReloadCurrentScene();
+
+        if (Input.IsActionJustPressed("sword")) _weapon = new Sword();
+        if (Input.IsActionJustPressed("bow")) _weapon = new Bow();
+        if (Input.IsActionJustPressed("whip")) _weapon = new Whip();
 
 
         if (_isMoving)
@@ -101,7 +104,6 @@ public partial class Player : Area2D
 
     public void ProcessSpecialMove()
     {
-
         switch (_weapon.Name)
         {
             case WeaponType.Whip:
