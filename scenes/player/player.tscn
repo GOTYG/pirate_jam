@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bixeqh07t6dnb"]
+[gd_scene load_steps=12 format=3 uid="uid://bixeqh07t6dnb"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_lltbs"]
 [ext_resource type="Texture2D" uid="uid://dvjivjv6aqaw4" path="res://art/sword.png" id="1_x1klt"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cuuiu4p7p7bnt" path="res://art/animations/bow_shooting_animation_Shoot_3.png" id="6_2am23"]
 [ext_resource type="Texture2D" uid="uid://k3k8bat58ga2" path="res://art/animations/bow_shooting_animation_Shoot_4.png" id="7_6el6g"]
 [ext_resource type="Texture2D" uid="uid://bo38i0jpkao36" path="res://art/animations/bow_shooting_animation_Shoot_5.png" id="8_wy1x0"]
+[ext_resource type="Texture2D" uid="uid://pgo10hax72q0" path="res://art/arrow_selected.png" id="9_4sbsi"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r4t57"]
 animations = [{
@@ -64,3 +65,8 @@ animation = &"bow_idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_qh3rb")
+
+[node name="Arrow" type="Sprite2D" parent="."]
+visible = false
+top_level = true
+texture = ExtResource("9_4sbsi")
