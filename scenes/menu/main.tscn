@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://drp6nip5fbgx7"]
 
-[ext_resource type="PackedScene" uid="uid://tqmycnx3nn3a" path="res://scenes/maps/map.tscn" id="1_dj4vl"]
+[ext_resource type="PackedScene" path="res://scenes/maps/map.tscn" id="1_dj4vl"]
 [ext_resource type="FontFile" uid="uid://cifqecryg7771" path="res://art/fonts/Macondo-Regular.ttf" id="2_oqd1f"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_0c68y"]
