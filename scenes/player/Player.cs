@@ -8,7 +8,9 @@ public partial class Player : Area2D
 {
     [Signal]
     public delegate void WhipEventHandler();
-
+    
+    [Signal]
+    public delegate void NextLevelEventHandler();
 
     private PlayerWeapon _weapon;
     private TileMapLayer _tileMap;
@@ -32,6 +34,7 @@ public partial class Player : Area2D
         {
             GD.Print("CUM");
             // TODO Level Cumplete
+            EmitSignal(SignalName.NextLevel, GetParent().SceneFilePath);
         }
 
         _isMoving = false;

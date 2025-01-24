@@ -27,7 +27,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Map" type="Node2D"]
+[node name="Map_1" type="Node2D"]
 script = ExtResource("1_acsen")
 
 [node name="Map" type="TileMapLayer" parent="."]
@@ -49,4 +49,5 @@ position = Vector2(144, 139)
 sprite_frames = SubResource("SpriteFrames_mn745")
 animation = &"down"
 
+[connection signal="NextLevel" from="Player" to="." method="NextLevel"]
 [connection signal="Whip" from="Player" to="Bull" method="OnPlayerWhip"]
