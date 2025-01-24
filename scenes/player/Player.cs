@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 using PirateJam.scenes.maps;
 
 namespace PirateJam.scenes.player;
@@ -8,7 +8,7 @@ public partial class Player : Area2D
 {
     [Signal]
     public delegate void WhipEventHandler();
-    
+
     [Signal]
     public delegate void NextLevelEventHandler();
 
@@ -19,6 +19,8 @@ public partial class Player : Area2D
     private Vector2 _globalTargetPosition;
     private Vector2I _selectedDirection;
     private Sprite2D _directionSprite;
+    private Obstacles _obstacles;
+    
 
     public override void _PhysicsProcess(double delta)
     {
@@ -32,13 +34,10 @@ public partial class Player : Area2D
 
         if (_tileMap.GetCellTileData(_GetCurrentTilePosition()).GetCustomData("type").AsString() == "door")
         {
-            GD.Print("CUM");
-            // TODO Level Cumplete
             EmitSignal(SignalName.NextLevel, GetParent().SceneFilePath);
         }
 
         _isMoving = false;
-        // TODO: still retains the selected direction, wanted behavior?
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -49,6 +48,7 @@ public partial class Player : Area2D
         _spriteAnimation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _spriteAnimation.Play(_weapon.Animations["idle"]);
         _tileMap = GetParent().GetNode<TileMapLayer>("Map");
+        _obstacles = GetParent().GetNode<Obstacles>("Obstacles");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -61,21 +61,19 @@ public partial class Player : Area2D
         {
             _weapon = new Sword();
             _spriteAnimation.Play(_weapon.Animations["idle"]);
-
         }
+
         if (Input.IsActionJustPressed("bow"))
         {
             _weapon = new Bow();
             _spriteAnimation.Play(_weapon.Animations["idle"]);
-
         }
+
         if (Input.IsActionJustPressed("whip"))
         {
             _weapon = new Whip();
             _spriteAnimation.Play(_weapon.Animations["idle"]);
-
         }
-        
 
 
         if (_isMoving)
@@ -109,13 +107,65 @@ public partial class Player : Area2D
     }
 
 
+    public Vector2I GetWhipTarget()
+    {
+        return _GetCurrentTilePosition();
+    }
+
+    public Vector2I GetSwordTarget(Vector2I direction)
+    {
+        var targetTile = _GetCurrentTilePosition() + direction;
+        var targetTileData = _tileMap.GetCellTileData(targetTile);
+
+        return targetTileData.GetCustomData("type").AsString() != "floor" ? _GetCurrentTilePosition() : targetTile;
+    }
+
+    public Vector2I GetBowTarget(Vector2I direction)
+    {
+        var targetTile = _GetCurrentTilePosition();
+        GD.Print(targetTile);
+        GD.Print( _tileMap.MapToLocal(targetTile));
+
+        var obstacles = _obstacles.GetInteractables();
+        GD.Print(obstacles);
+        var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
+        
+
+        while (targetTileData.GetCustomData("type").AsString() != "wall")
+        {
+            foreach (var obstacle in obstacles)
+            {
+                GD.Print(_tileMap.LocalToMap(obstacle.Position));
+                if (targetTile == _tileMap.LocalToMap(obstacle.Position))
+                {
+                    GD.Print("hit!");
+                }
+            }
+            targetTile += direction;
+            targetTileData = _tileMap.GetCellTileData(targetTile + direction);
+        }
+
+        return targetTile;
+    }
+
+    public Vector2I GetTargetPosition(Vector2I direction)
+    {
+        switch (_weapon.Name)
+        {
+            case WeaponType.Sword: return GetSwordTarget(direction);
+            case WeaponType.Bow: return GetBowTarget(direction);
+            case WeaponType.Whip:
+            default:
+                return GetWhipTarget();
+        }
+    }
+
     public void MovePlayer(Vector2I direction)
     {
         _isMoving = true;
         _directionSprite.Visible = false;
 
-        Vector2I currTile = _GetCurrentTilePosition();
-        Vector2I targetPosition = _weapon.GetTargetPosition(direction, _tileMap, currTile);
+        var targetPosition = GetTargetPosition(direction);
 
         // Move in linear format
         _globalTargetPosition = _tileMap.MapToLocal(targetPosition);

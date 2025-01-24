@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxn0rpgsso3ui"]
+
+[ext_resource type="Script" path="res://Obstacles.cs" id="1_njgtl"]
+
+[node name="Obstacles" type="Node"]
+script = ExtResource("1_njgtl")

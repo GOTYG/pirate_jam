@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=4 uid="uid://tqmycnx3nn3a"]
+[gd_scene load_steps=10 format=4 uid="uid://bfhhjroxltt2m"]
 
 [ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_acsen"]
+[ext_resource type="PackedScene" uid="uid://cxn0rpgsso3ui" path="res://obstacles.tscn" id="2_8mg10"]
 [ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="2_eosdw"]
 [ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="3_fsjxr"]
 [ext_resource type="PackedScene" uid="uid://08ylpklbdwfi" path="res://bull.tscn" id="4_dvo4p"]
@@ -34,20 +35,24 @@ script = ExtResource("1_acsen")
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAQAAAAAAAEAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAEAAAACAAEAAAAJAAIAAAACAAEAAAAJAAMAAAACAAEAAAAJAAQAAAACAAEAAAAIAAUAAAADAAIAAAAHAAUAAAADAAIAAAAGAAUAAAADAAIAAAAFAAUAAAADAAIAAAAEAAUAAAADAAIAAAADAAUAAAABAAEAAAACAAUAAAADAAIAAAABAAUAAAADAAIAAAAJAAAAAAACAAAAAAAAAAUAAAAAAAEAAAAJAAUAAAACAAEAAAABAAEAAAAEAAIAAAACAAIAAAABAAEAAAACAAMAAAABAAEAAAADAAMAAAABAAEAAAAEAAMAAAAEAAIAAAAEAAQAAAAEAAIAAAAFAAQAAAAEAAIAAAAGAAQAAAAEAAIAAAAHAAQAAAAEAAIAAAAIAAQAAAAEAAIAAAAIAAMAAAACAAMAAAAIAAIAAAAEAAIAAAAIAAEAAAADAAIAAAAHAAEAAAAEAAIAAAAGAAEAAAAEAAIAAAAFAAEAAAABAAEAAAAEAAEAAAAEAAIAAAADAAEAAAAEAAIAAAACAAEAAAADAAIAAAABAAIAAAAEAAIAAAABAAMAAAAEAAIAAAABAAQAAAAEAAIAAAACAAQAAAACAAMAAAADAAQAAAACAAMAAAAFAAMAAAADAAIAAAAGAAMAAAADAAIAAAAHAAMAAAADAAIAAAAHAAIAAAAEAAIAAAAGAAIAAAADAAIAAAAFAAIAAAADAAIAAAAEAAIAAAAEAAIAAAADAAIAAAACAAMAAAABAAYAAAAEAAIAAAACAAYAAAAEAAIAAAADAAYAAAAEAAIAAAAEAAYAAAAEAAIAAAAFAAYAAAAEAAIAAAAGAAYAAAAEAAIAAAAHAAYAAAAEAAIAAAAIAAYAAAABAAMAAAAJAAYAAAACAAEAAAAIAAcAAAABAAIAAAAHAAcAAAABAAIAAAAGAAcAAAABAAIAAAAFAAcAAAABAAIAAAAEAAcAAAABAAIAAAADAAcAAAABAAIAAAACAAcAAAABAAIAAAABAAcAAAABAAIAAAAAAAYAAAAAAAEAAAAAAAcAAAAAAAIAAAAJAAcAAAACAAIAAAA=")
 tile_set = ExtResource("2_eosdw")
 
+[node name="Obstacles" parent="." instance=ExtResource("2_8mg10")]
+
+[node name="Bull" parent="Obstacles" instance=ExtResource("4_dvo4p")]
+position = Vector2(53, 74)
+
 [node name="StartMarker" type="Marker2D" parent="."]
 position = Vector2(48, 48)
 
-[node name="Player" parent="." instance=ExtResource("3_fsjxr")]
-
-[node name="Bull" parent="." instance=ExtResource("4_dvo4p")]
-position = Vector2(108, 44)
-
 [node name="Button" parent="." instance=ExtResource("5_1aodm")]
+visible = false
 
 [node name="Bridge" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(144, 139)
 sprite_frames = SubResource("SpriteFrames_mn745")
 animation = &"down"
 
+[node name="Player" parent="." instance=ExtResource("3_fsjxr")]
+
 [connection signal="NextLevel" from="Player" to="." method="NextLevel"]
-[connection signal="Whip" from="Player" to="Bull" method="OnPlayerWhip"]
+[connection signal="Whip" from="Player" to="Obstacles/Bull" method="OnPlayerWhip"]
