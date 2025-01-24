@@ -46,8 +46,8 @@ public partial class Bull : Sprite2D
         if (curTileData.GetCustomData("type").AsString() == "pit")
         {
             //TODO: Don't hardcode and make new tile (filled pit)
-            // var floorTileAtlasLoc = new Vector2I(4, 2);
-            // _tileMap.SetCell(currentTile,0, atlasCoords:floorTileAtlasLoc, 0);
+            var floorTileAtlasLoc = new Vector2I(2, 4);
+            _tileMap.SetCell(currentTile,0, atlasCoords:floorTileAtlasLoc, 0);
         }
 
         _globalTargetPosition = _tileMap.MapToLocal(currentTile);

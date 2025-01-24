@@ -8,7 +8,9 @@ public partial class Player : Area2D
 {
     [Signal]
     public delegate void WhipEventHandler();
-
+    
+    [Signal]
+    public delegate void NextLevelEventHandler();
 
     private PlayerWeapon _weapon;
     private TileMapLayer _tileMap;
@@ -32,6 +34,7 @@ public partial class Player : Area2D
         {
             GD.Print("CUM");
             // TODO Level Cumplete
+            EmitSignal(SignalName.NextLevel, GetParent().SceneFilePath);
         }
 
         _isMoving = false;
@@ -54,9 +57,25 @@ public partial class Player : Area2D
         if (Input.IsActionJustPressed("restart"))
             GetTree().ReloadCurrentScene();
 
-        if (Input.IsActionJustPressed("sword")) _weapon = new Sword();
-        if (Input.IsActionJustPressed("bow")) _weapon = new Bow();
-        if (Input.IsActionJustPressed("whip")) _weapon = new Whip();
+        if (Input.IsActionJustPressed("sword"))
+        {
+            _weapon = new Sword();
+            _spriteAnimation.Play(_weapon.Animations["idle"]);
+
+        }
+        if (Input.IsActionJustPressed("bow"))
+        {
+            _weapon = new Bow();
+            _spriteAnimation.Play(_weapon.Animations["idle"]);
+
+        }
+        if (Input.IsActionJustPressed("whip"))
+        {
+            _weapon = new Whip();
+            _spriteAnimation.Play(_weapon.Animations["idle"]);
+
+        }
+        
 
 
         if (_isMoving)
