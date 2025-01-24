@@ -54,9 +54,25 @@ public partial class Player : Area2D
         if (Input.IsActionJustPressed("restart"))
             GetTree().ReloadCurrentScene();
 
-        if (Input.IsActionJustPressed("sword")) _weapon = new Sword();
-        if (Input.IsActionJustPressed("bow")) _weapon = new Bow();
-        if (Input.IsActionJustPressed("whip")) _weapon = new Whip();
+        if (Input.IsActionJustPressed("sword"))
+        {
+            _weapon = new Sword();
+            _spriteAnimation.Play(_weapon.Animations["idle"]);
+
+        }
+        if (Input.IsActionJustPressed("bow"))
+        {
+            _weapon = new Bow();
+            _spriteAnimation.Play(_weapon.Animations["idle"]);
+
+        }
+        if (Input.IsActionJustPressed("whip"))
+        {
+            _weapon = new Whip();
+            _spriteAnimation.Play(_weapon.Animations["idle"]);
+
+        }
+        
 
 
         if (_isMoving)
