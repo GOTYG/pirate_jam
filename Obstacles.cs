@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using PirateJam;
-
+namespace PirateJam;
 public partial class Obstacles : Node
 {
 	private List<Bull> _interactables { get; set; }

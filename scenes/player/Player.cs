@@ -123,22 +123,19 @@ public partial class Player : Area2D
     public Vector2I GetBowTarget(Vector2I direction)
     {
         var targetTile = _GetCurrentTilePosition();
-        GD.Print(targetTile);
-        GD.Print( _tileMap.MapToLocal(targetTile));
-
         var obstacles = _obstacles.GetInteractables();
-        GD.Print(obstacles);
+
         var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
         
-
         while (targetTileData.GetCustomData("type").AsString() != "wall")
         {
             foreach (var obstacle in obstacles)
             {
-                GD.Print(_tileMap.LocalToMap(obstacle.Position));
                 if (targetTile == _tileMap.LocalToMap(obstacle.Position))
                 {
-                    GD.Print("hit!");
+                    obstacle.Hide();
+                    obstacle.IsInteractable = false;
+                    return targetTile;
                 }
             }
             targetTile += direction;
