@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+namespace PirateJam;
 public partial class Bridge : AnimatedSprite2D
 {
     public bool IsInteractable { get; set; }
@@ -21,6 +22,7 @@ public partial class Bridge : AnimatedSprite2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        GoUp();
     }
 
 

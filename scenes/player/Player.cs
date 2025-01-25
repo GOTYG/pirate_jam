@@ -120,36 +120,53 @@ public partial class Player : Area2D
         return targetTileData.GetCustomData("type").AsString() != "floor" ? _GetCurrentTilePosition() : targetTile;
     }
 
-    public Vector2I GetBowTarget(Vector2I direction)
+    public bool IsHitObstacle(Vector2I tile)
     {
-        var targetTile = _GetCurrentTilePosition();
-        var obstacles = _obstacles.GetInteractables();
-
-        var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
+        var bulls = _obstacles.GetInteractableBulls();
+        var bridges = _obstacles.GetInteractableBridges();
         
-        foreach (var obstacle in obstacles)
+        foreach (var obstacle in bulls)
         {
-            if (targetTile == _tileMap.LocalToMap(obstacle.Position))
+            if (tile == _tileMap.LocalToMap(obstacle.Position))
             {
                 obstacle.Hide();
                 obstacle.IsInteractable = false;
-                return targetTile;
+                return true;
             }
         }
         
+        foreach (var obstacle in bridges)
+        {
+            if (tile == _tileMap.LocalToMap(obstacle.Position))
+            {
+                return true;
+            }
+        }
+
+        return false;
+
+
+    }
+
+    public Vector2I GetBowTarget(Vector2I direction)
+    {
+        var targetTile = _GetCurrentTilePosition();
+        var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
+
+        if (IsHitObstacle(targetTile))
+        {
+            return targetTile;
+        }
+        
+
         while (targetTileData.GetCustomData("type").AsString() != "wall")
         {
             targetTile += direction;
             targetTileData = _tileMap.GetCellTileData(targetTile + direction);
             
-            foreach (var obstacle in obstacles)
+            if (IsHitObstacle(targetTile))
             {
-                if (targetTile == _tileMap.LocalToMap(obstacle.Position))
-                {
-                    obstacle.Hide();
-                    obstacle.IsInteractable = false;
-                    return targetTile;
-                }
+                return targetTile;
             }
 
         }
