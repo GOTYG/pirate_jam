@@ -127,8 +127,21 @@ public partial class Player : Area2D
 
         var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
         
+        foreach (var obstacle in obstacles)
+        {
+            if (targetTile == _tileMap.LocalToMap(obstacle.Position))
+            {
+                obstacle.Hide();
+                obstacle.IsInteractable = false;
+                return targetTile;
+            }
+        }
+        
         while (targetTileData.GetCustomData("type").AsString() != "wall")
         {
+            targetTile += direction;
+            targetTileData = _tileMap.GetCellTileData(targetTile + direction);
+            
             foreach (var obstacle in obstacles)
             {
                 if (targetTile == _tileMap.LocalToMap(obstacle.Position))
@@ -138,8 +151,7 @@ public partial class Player : Area2D
                     return targetTile;
                 }
             }
-            targetTile += direction;
-            targetTileData = _tileMap.GetCellTileData(targetTile + direction);
+
         }
 
         return targetTile;

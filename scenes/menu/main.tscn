@@ -20,10 +20,10 @@ color = Color(0.0627451, 0.121569, 0.145098, 1)
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="LevelHint" type="NinePatchRect" parent="HUD"]
-offset_left = 27.0
-offset_top = 227.0
-offset_right = 220.0
-offset_bottom = 267.0
+offset_left = 116.0
+offset_top = 699.0
+offset_right = 309.0
+offset_bottom = 739.0
 size_flags_horizontal = 6
 size_flags_vertical = 6
 metadata/_edit_group_ = true
@@ -42,6 +42,7 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_oqd1f")
+theme_override_font_sizes/font_size = 24
 text = "Press R to restart the level"
 
 [node name="GameDiaglog" type="NinePatchRect" parent="HUD"]
