@@ -8,6 +8,7 @@ public partial class Bull : Sprite2D
     private TileMapLayer _tileMap;
     private bool _isMoving;
     private Vector2 _globalTargetPosition;
+    public bool IsInteractable { get; set; }
 
     public void OnPlayerWhip(Vector2I whipPos)
     {
@@ -48,6 +49,7 @@ public partial class Bull : Sprite2D
             //TODO: Don't hardcode and make new tile (filled pit)
             var floorTileAtlasLoc = new Vector2I(2, 4);
             _tileMap.SetCell(currentTile,0, atlasCoords:floorTileAtlasLoc, 0);
+            IsInteractable = false;
         }
 
         _globalTargetPosition = _tileMap.MapToLocal(currentTile);
@@ -75,7 +77,8 @@ public partial class Bull : Sprite2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _tileMap = GetParent().GetNode<TileMapLayer>("Map");
+        _tileMap = GetParent().GetParent().GetNode<TileMapLayer>("Map");
+        IsInteractable = true;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
