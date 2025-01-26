@@ -18,18 +18,22 @@ tile_set = ExtResource("2_eosdw")
 [node name="Obstacles" parent="." instance=ExtResource("2_8mg10")]
 
 [node name="Bridge" parent="Obstacles" instance=ExtResource("6_u0hh8")]
+position = Vector2(162, 144)
 animation = &"up"
+Id = 1
+
+[node name="Button" parent="Obstacles" instance=ExtResource("5_1aodm")]
+position = Vector2(46, 142)
+BridgeId = 1
 
 [node name="Bull" parent="Obstacles" instance=ExtResource("4_dvo4p")]
-position = Vector2(53, 74)
+position = Vector2(46, 78)
 
 [node name="StartMarker" type="Marker2D" parent="."]
 position = Vector2(48, 48)
 
-[node name="Button" parent="." instance=ExtResource("5_1aodm")]
-position = Vector2(46, 142)
-
 [node name="Player" parent="." instance=ExtResource("3_fsjxr")]
+z_index = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(167, 125)

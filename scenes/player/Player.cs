@@ -20,7 +20,7 @@ public partial class Player : Area2D
     private Vector2I _selectedDirection;
     private Sprite2D _directionSprite;
     private Obstacles _obstacles;
-    
+
 
     public override void _PhysicsProcess(double delta)
     {
@@ -112,63 +112,29 @@ public partial class Player : Area2D
         return _GetCurrentTilePosition();
     }
 
+
     public Vector2I GetSwordTarget(Vector2I direction)
     {
         var targetTile = _GetCurrentTilePosition() + direction;
         var targetTileData = _tileMap.GetCellTileData(targetTile);
 
+        _obstacles.IsSwordHitObstacle(targetTile, _tileMap);
+
         return targetTileData.GetCustomData("type").AsString() != "floor" ? _GetCurrentTilePosition() : targetTile;
     }
 
-    public bool IsHitObstacle(Vector2I tile)
-    {
-        var bulls = _obstacles.GetInteractableBulls();
-        var bridges = _obstacles.GetInteractableBridges();
-        
-        foreach (var obstacle in bulls)
-        {
-            if (tile == _tileMap.LocalToMap(obstacle.Position))
-            {
-                obstacle.Hide();
-                obstacle.IsInteractable = false;
-                return true;
-            }
-        }
-        
-        foreach (var obstacle in bridges)
-        {
-            if (tile == _tileMap.LocalToMap(obstacle.Position))
-            {
-                return true;
-            }
-        }
-
-        return false;
-
-
-    }
 
     public Vector2I GetBowTarget(Vector2I direction)
     {
         var targetTile = _GetCurrentTilePosition();
         var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
 
-        if (IsHitObstacle(targetTile))
-        {
-            return targetTile;
-        }
-        
 
-        while (targetTileData.GetCustomData("type").AsString() != "wall")
+        while (targetTileData.GetCustomData("type").AsString() != "wall" &&
+               !_obstacles.IsBowHitObstacle(targetTile, _tileMap, direction))
         {
             targetTile += direction;
             targetTileData = _tileMap.GetCellTileData(targetTile + direction);
-            
-            if (IsHitObstacle(targetTile))
-            {
-                return targetTile;
-            }
-
         }
 
         return targetTile;
