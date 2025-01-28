@@ -15,8 +15,11 @@ public partial class Button : AnimatedSprite2D, IInteractable
 	{
 		foreach (var bridge in _bridges)
 		{
-			Play("pressed");
-			bridge.ToggleBridge();
+			if(BridgeId == bridge.Id)
+			{
+				Play("pressed");
+				bridge.ToggleBridge();
+			}
 		}
 	}
 	

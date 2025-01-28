@@ -1,12 +1,12 @@
 [gd_scene load_steps=13 format=3 uid="uid://bixeqh07t6dnb"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_lltbs"]
-[ext_resource type="Texture2D" uid="uid://dvjivjv6aqaw4" path="res://art/sword.png" id="1_x1klt"]
 [ext_resource type="Texture2D" uid="uid://damtktdjsffee" path="res://art/animations/bow_shooting_animation_Shoot_0.png" id="3_yfscs"]
 [ext_resource type="Texture2D" uid="uid://kal8jqxydl54" path="res://art/animations/bow_shooting_animation_Shoot_1.png" id="4_7eeuf"]
 [ext_resource type="Texture2D" uid="uid://dkkpl3aitu4kd" path="res://art/animations/bow_shooting_animation_Shoot_2.png" id="5_slsrl"]
 [ext_resource type="Texture2D" uid="uid://cuuiu4p7p7bnt" path="res://art/animations/bow_shooting_animation_Shoot_3.png" id="6_2am23"]
 [ext_resource type="Texture2D" uid="uid://k3k8bat58ga2" path="res://art/animations/bow_shooting_animation_Shoot_4.png" id="7_6el6g"]
+[ext_resource type="Texture2D" uid="uid://b57q6lvlgnbv6" path="res://art/wizard.png" id="8_1ui0p"]
 [ext_resource type="Texture2D" uid="uid://bo38i0jpkao36" path="res://art/animations/bow_shooting_animation_Shoot_5.png" id="8_wy1x0"]
 [ext_resource type="Texture2D" uid="uid://pgo10hax72q0" path="res://art/arrow_selected.png" id="9_4sbsi"]
 [ext_resource type="Texture2D" uid="uid://c8dkk7s0vgjf7" path="res://art/whip.png" id="9_dgiam"]
@@ -46,7 +46,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_x1klt")
+"texture": ExtResource("8_1ui0p")
 }],
 "loop": true,
 "name": &"sword_idle",
@@ -70,7 +70,7 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_r4t57")
-animation = &"whip_idle"
+animation = &"sword_idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_qh3rb")

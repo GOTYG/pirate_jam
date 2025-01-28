@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using PirateJam.scenes.player;
 
 namespace PirateJam;
 
@@ -8,8 +9,11 @@ public partial class Bull : Sprite2D, IInteractable
     private TileMapLayer _tileMap;
     private bool _isMoving;
     private Vector2 _globalTargetPosition;
+    private Obstacles _obstacles;
+    private Player _player;
+
     public bool IsInteractable { get; set; }
-    
+
 
     public void OnPlayerWhip(Vector2I whipPos)
     {
@@ -36,12 +40,17 @@ public partial class Bull : Sprite2D, IInteractable
         var curTileData = _tileMap.GetCellTileData(currentTile);
         var nextTileData = _tileMap.GetCellTileData(currentTile + direction);
 
+        var bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
+        var bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
+
         //TODO get buttons and check for press
-        while (!(nextTileData.GetCustomData("type").AsString() == "wall" ||
-                 curTileData.GetCustomData("type").AsString() == "pit"))
+        while (nextTileData.GetCustomData("type").AsString() != "wall" &&
+               curTileData.GetCustomData("type").AsString() != "pit" && bull == null && bridge == null)
         {
             curTileData = nextTileData;
             currentTile += direction;
+            bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
+            bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
             nextTileData = _tileMap.GetCellTileData(currentTile + direction);
         }
 
@@ -78,7 +87,11 @@ public partial class Bull : Sprite2D, IInteractable
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _tileMap = GetParent().GetParent().GetNode<TileMapLayer>("Map");
+        var parent = GetParent();
+        _tileMap = parent.GetParent().GetNode<TileMapLayer>("Map");
+        _player = parent.GetParent().GetNode<Player>("Player");
+        _player.Whip += OnPlayerWhip;
+        _obstacles = parent as Obstacles;
         IsInteractable = true;
     }
 

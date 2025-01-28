@@ -7,7 +7,7 @@ namespace PirateJam.scenes.player;
 public partial class Player : Area2D
 {
     [Signal]
-    public delegate void WhipEventHandler();
+    public delegate void WhipEventHandler(Vector2I pos);
 
     [Signal]
     public delegate void NextLevelEventHandler();
@@ -118,7 +118,7 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition() + direction;
         var targetTileData = _tileMap.GetCellTileData(targetTile);
 
-        _obstacles.IsSwordHitObstacle(targetTile, _tileMap);
+        _obstacles.IsHitButton(targetTile, _tileMap);
 
         return targetTileData.GetCustomData("type").AsString() != "floor" ? _GetCurrentTilePosition() : targetTile;
     }
@@ -130,11 +130,23 @@ public partial class Player : Area2D
         var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
 
 
+        var bull = _obstacles.IsHitBull(targetTile, _tileMap);
+        var bridge = _obstacles.IsHitBridge(targetTile + direction, _tileMap);
+        
+        //Stoppin criteria is hitting a wall, bull, or bridge
         while (targetTileData.GetCustomData("type").AsString() != "wall" &&
-               !_obstacles.IsBowHitObstacle(targetTile, _tileMap, direction))
+               bull == null && bridge == null)
         {
             targetTile += direction;
+            bull = _obstacles.IsHitBull(targetTile, _tileMap);
+            bridge = _obstacles.IsHitBridge(targetTile + direction, _tileMap);
             targetTileData = _tileMap.GetCellTileData(targetTile + direction);
+        }
+
+        if (bull != null)
+        {
+            bull.Hide();
+            bull.IsInteractable = false;
         }
 
         return targetTile;
