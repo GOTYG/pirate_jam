@@ -42,6 +42,7 @@ public partial class Bull : Sprite2D, IInteractable
 
         var bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
         var bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
+        var button = _obstacles.IsHitButton(currentTile, _tileMap);
 
         //TODO get buttons and check for press
         while (nextTileData.GetCustomData("type").AsString() != "wall" &&
@@ -51,6 +52,7 @@ public partial class Bull : Sprite2D, IInteractable
             currentTile += direction;
             bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
             bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
+            button = _obstacles.IsHitButton(currentTile, _tileMap);
             nextTileData = _tileMap.GetCellTileData(currentTile + direction);
         }
 

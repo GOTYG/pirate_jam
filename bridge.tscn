@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://di7p6vqn5xxc0"]
 
-[ext_resource type="Texture2D" uid="uid://cnjwse614ksg8" path="res://art/bridge_open.png" id="1_0y7db"]
-[ext_resource type="Texture2D" uid="uid://0fh1upirodtm" path="res://art/bridge_closed.png" id="2_870y8"]
+[ext_resource type="Texture2D" uid="uid://bqe0fbeym0g" path="res://art/bridge_down.png" id="1_tgiig"]
+[ext_resource type="Texture2D" uid="uid://p6ioewjwewh7" path="res://art/bridge_up.png" id="2_tjgjv"]
 [ext_resource type="Script" path="res://Bridge.cs" id="3_h80r4"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mn745"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_0y7db")
+"texture": ExtResource("1_tgiig")
 }],
 "loop": true,
 "name": &"down",
@@ -16,7 +16,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_870y8")
+"texture": ExtResource("2_tjgjv")
 }],
 "loop": true,
 "name": &"up",
@@ -26,5 +26,6 @@ animations = [{
 [node name="Bridge" type="AnimatedSprite2D"]
 position = Vector2(144, 139)
 sprite_frames = SubResource("SpriteFrames_mn745")
-animation = &"up"
+animation = &"down"
 script = ExtResource("3_h80r4")
+IsUp = true

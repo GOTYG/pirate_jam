@@ -34,9 +34,9 @@ public partial class Obstacles : Node
         return _bulls.Where(bull => bull.IsInteractable).ToList();
     }
 
-    public List<Bridge> GetInteractableBridges()
+    public List<Bridge> GetBridges(bool isUp=true)
     {
-        return _bridges.Where(bridge => bridge.IsInteractable).ToList();
+        return _bridges.Where(bridge => bridge.IsInteractable == isUp).ToList();
     }
 
     public List<Button> GetInteractableButtons()
@@ -60,9 +60,9 @@ public partial class Obstacles : Node
     }
 
 
-    public Bridge? IsHitBridge(Vector2I tile, TileMapLayer tileMap)
+    public Bridge? IsHitBridge(Vector2I tile, TileMapLayer tileMap,bool isUp=true)
     {
-        var bridges = GetInteractableBridges();
+        var bridges = GetBridges(isUp);
 
         foreach (var obstacle in bridges)
         {

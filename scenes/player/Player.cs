@@ -118,9 +118,16 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition() + direction;
         var targetTileData = _tileMap.GetCellTileData(targetTile);
 
+        //We don't care about the result, we just press it if its there 
         _obstacles.IsHitButton(targetTile, _tileMap);
+        var bridge = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: false);
+        var bull = _obstacles.IsHitBull(targetTile, _tileMap);
+        var tileType = targetTileData.GetCustomData("type").AsString();
+        var walkable = tileType == "floor" || tileType == "door" || bridge != null;
 
-        return targetTileData.GetCustomData("type").AsString() != "floor" ? _GetCurrentTilePosition() : targetTile;
+        return walkable && bull == null
+            ? targetTile
+            : _GetCurrentTilePosition();
     }
 
 
@@ -129,11 +136,10 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition();
         var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
 
-
         var bull = _obstacles.IsHitBull(targetTile, _tileMap);
         var bridge = _obstacles.IsHitBridge(targetTile + direction, _tileMap);
-        
-        //Stoppin criteria is hitting a wall, bull, or bridge
+
+        // Stoppin' criteria is hitting a wall, bull, or bridge
         while (targetTileData.GetCustomData("type").AsString() != "wall" &&
                bull == null && bridge == null)
         {
