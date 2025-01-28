@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://bfhhjroxltt2m"]
+[gd_scene load_steps=8 format=4 uid="uid://bfhhjroxltt2m"]
 
 [ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_acsen"]
 [ext_resource type="PackedScene" uid="uid://cxn0rpgsso3ui" path="res://obstacles.tscn" id="2_8mg10"]
@@ -6,27 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="3_fsjxr"]
 [ext_resource type="PackedScene" uid="uid://08ylpklbdwfi" path="res://bull.tscn" id="4_dvo4p"]
 [ext_resource type="PackedScene" uid="uid://s5bysbi848gh" path="res://button.tscn" id="5_1aodm"]
-[ext_resource type="Texture2D" uid="uid://bqe0fbeym0g" path="res://art/bridge_down.png" id="6_yidlo"]
-[ext_resource type="Texture2D" uid="uid://b3rbniocyp1ot" path="res://art/bride_up.png" id="7_sud0b"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_mn745"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("6_yidlo")
-}],
-"loop": true,
-"name": &"down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("7_sud0b")
-}],
-"loop": true,
-"name": &"up",
-"speed": 5.0
-}]
+[ext_resource type="PackedScene" uid="uid://di7p6vqn5xxc0" path="res://bridge.tscn" id="6_u0hh8"]
 
 [node name="Map_1" type="Node2D"]
 script = ExtResource("1_acsen")
@@ -37,22 +17,27 @@ tile_set = ExtResource("2_eosdw")
 
 [node name="Obstacles" parent="." instance=ExtResource("2_8mg10")]
 
+[node name="Bridge" parent="Obstacles" instance=ExtResource("6_u0hh8")]
+position = Vector2(162, 144)
+animation = &"up"
+Id = 1
+
+[node name="Button" parent="Obstacles" instance=ExtResource("5_1aodm")]
+position = Vector2(46, 142)
+BridgeId = 1
+
 [node name="Bull" parent="Obstacles" instance=ExtResource("4_dvo4p")]
-position = Vector2(53, 74)
+position = Vector2(46, 78)
 
 [node name="StartMarker" type="Marker2D" parent="."]
 position = Vector2(48, 48)
 
-[node name="Button" parent="." instance=ExtResource("5_1aodm")]
-visible = false
-
-[node name="Bridge" type="AnimatedSprite2D" parent="."]
-visible = false
-position = Vector2(144, 139)
-sprite_frames = SubResource("SpriteFrames_mn745")
-animation = &"down"
-
 [node name="Player" parent="." instance=ExtResource("3_fsjxr")]
+z_index = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(167, 125)
+zoom = Vector2(3, 3)
 
 [connection signal="NextLevel" from="Player" to="." method="NextLevel"]
 [connection signal="Whip" from="Player" to="Obstacles/Bull" method="OnPlayerWhip"]

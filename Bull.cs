@@ -3,12 +3,13 @@ using System;
 
 namespace PirateJam;
 
-public partial class Bull : Sprite2D
+public partial class Bull : Sprite2D, IInteractable
 {
     private TileMapLayer _tileMap;
     private bool _isMoving;
     private Vector2 _globalTargetPosition;
     public bool IsInteractable { get; set; }
+    
 
     public void OnPlayerWhip(Vector2I whipPos)
     {
@@ -16,7 +17,7 @@ public partial class Bull : Sprite2D
         var deltaX = whipPos.X - Position.X;
         var deltaY = whipPos.Y - Position.Y;
         Vector2I direction;
-        
+
 
         if (Math.Abs(deltaX) > Math.Abs(deltaY))
         {
@@ -28,27 +29,27 @@ public partial class Bull : Sprite2D
             if (Mathf.Sign(deltaY) == 1) direction = Vector2I.Up;
             else direction = Vector2I.Down;
         }
-        
+
         //TODO update rotation/mirror image
-        
+
         var currentTile = _GetCurrentTilePosition();
         var curTileData = _tileMap.GetCellTileData(currentTile);
         var nextTileData = _tileMap.GetCellTileData(currentTile + direction);
 
-
+        //TODO get buttons and check for press
         while (!(nextTileData.GetCustomData("type").AsString() == "wall" ||
                  curTileData.GetCustomData("type").AsString() == "pit"))
         {
             curTileData = nextTileData;
             currentTile += direction;
-            nextTileData = _tileMap.GetCellTileData(currentTile+direction);
+            nextTileData = _tileMap.GetCellTileData(currentTile + direction);
         }
 
         if (curTileData.GetCustomData("type").AsString() == "pit")
         {
             //TODO: Don't hardcode and make new tile (filled pit)
             var floorTileAtlasLoc = new Vector2I(2, 4);
-            _tileMap.SetCell(currentTile,0, atlasCoords:floorTileAtlasLoc, 0);
+            _tileMap.SetCell(currentTile, 0, atlasCoords: floorTileAtlasLoc, 0);
             IsInteractable = false;
         }
 
@@ -64,7 +65,7 @@ public partial class Bull : Sprite2D
             GlobalPosition = GlobalPosition.MoveToward(_globalTargetPosition, 2); //TODO: not hardcoded delta
             return;
         }
-        
+
 
         _isMoving = false;
     }

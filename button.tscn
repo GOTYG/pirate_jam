@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://s5bysbi848gh"]
+[gd_scene load_steps=5 format=3 uid="uid://s5bysbi848gh"]
 
 [ext_resource type="Texture2D" uid="uid://fp1rlgpd12xu" path="res://art/button.png" id="1_r3vus"]
 [ext_resource type="Texture2D" uid="uid://bej13jwqtrvec" path="res://art/button_pressed.png" id="2_x1rju"]
+[ext_resource type="Script" path="res://Button.cs" id="3_oebyh"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_amk7d"]
 animations = [{
@@ -25,3 +26,4 @@ animations = [{
 [node name="Button" type="AnimatedSprite2D"]
 position = Vector2(238, 46)
 sprite_frames = SubResource("SpriteFrames_amk7d")
+script = ExtResource("3_oebyh")
