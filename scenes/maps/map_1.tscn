@@ -18,8 +18,12 @@ tile_set = ExtResource("2_eosdw")
 [node name="Obstacles" parent="." instance=ExtResource("2_8mg10")]
 
 [node name="Bridge" parent="Obstacles" instance=ExtResource("6_u0hh8")]
-position = Vector2(162, 144)
-animation = &"up"
+position = Vector2(80, 112)
+scale = Vector2(-1, 1)
+Id = 1
+
+[node name="Bridge2" parent="Obstacles" instance=ExtResource("6_u0hh8")]
+position = Vector2(112, 113)
 Id = 1
 
 [node name="Button" parent="Obstacles" instance=ExtResource("5_1aodm")]
@@ -27,7 +31,10 @@ position = Vector2(46, 142)
 BridgeId = 1
 
 [node name="Bull" parent="Obstacles" instance=ExtResource("4_dvo4p")]
-position = Vector2(46, 78)
+position = Vector2(144, 48)
+
+[node name="Bull2" parent="Obstacles" instance=ExtResource("4_dvo4p")]
+position = Vector2(46, 110)
 
 [node name="StartMarker" type="Marker2D" parent="."]
 position = Vector2(48, 48)
@@ -40,4 +47,3 @@ position = Vector2(167, 125)
 zoom = Vector2(3, 3)
 
 [connection signal="NextLevel" from="Player" to="." method="NextLevel"]
-[connection signal="Whip" from="Player" to="Obstacles/Bull" method="OnPlayerWhip"]

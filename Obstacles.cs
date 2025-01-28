@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +34,9 @@ public partial class Obstacles : Node
         return _bulls.Where(bull => bull.IsInteractable).ToList();
     }
 
-    public List<Bridge> GetInteractableBridges()
+    public List<Bridge> GetBridges(bool isUp=true)
     {
-        return _bridges.Where(bridge => bridge.IsInteractable).ToList();
+        return _bridges.Where(bridge => bridge.IsInteractable == isUp).ToList();
     }
 
     public List<Button> GetInteractableButtons()
@@ -43,7 +44,7 @@ public partial class Obstacles : Node
         return _buttons.Where(button => button.IsInteractable).ToList();
     }
 
-    public bool IsSwordHitObstacle(Vector2I tile, TileMapLayer tileMap)
+    public Button? IsHitButton(Vector2I tile, TileMapLayer tileMap)
     {
         var buttons = GetInteractableButtons();
         foreach (var button in buttons)
@@ -51,37 +52,42 @@ public partial class Obstacles : Node
             if (tile == tileMap.LocalToMap(button.Position))
             {
                 button.Press();
-                return true;
+                return button;
             }
         }
 
-        return false;
+        return null;
     }
 
-    public bool IsBowHitObstacle(Vector2I tile, TileMapLayer tileMap, Vector2I direction)
+
+    public Bridge? IsHitBridge(Vector2I tile, TileMapLayer tileMap,bool isUp=true)
+    {
+        var bridges = GetBridges(isUp);
+
+        foreach (var obstacle in bridges)
+        {
+            if (tile == tileMap.LocalToMap(obstacle.Position))
+            {
+                return obstacle;
+            }
+        }
+
+        return null;
+    }
+
+    public Bull? IsHitBull(Vector2I tile, TileMapLayer tileMap)
     {
         var bulls = GetInteractableBulls();
-        var bridges = GetInteractableBridges();
 
         foreach (var obstacle in bulls)
         {
             if (tile == tileMap.LocalToMap(obstacle.Position))
             {
-                obstacle.Hide();
-                obstacle.IsInteractable = false;
-                return true;
+                return obstacle;
             }
         }
 
-        foreach (var obstacle in bridges)
-        {
-            if (tile + direction == tileMap.LocalToMap(obstacle.Position))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return null;
     }
 
 

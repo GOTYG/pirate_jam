@@ -7,7 +7,7 @@ namespace PirateJam.scenes.player;
 public partial class Player : Area2D
 {
     [Signal]
-    public delegate void WhipEventHandler();
+    public delegate void WhipEventHandler(Vector2I pos);
 
     [Signal]
     public delegate void NextLevelEventHandler();
@@ -118,9 +118,16 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition() + direction;
         var targetTileData = _tileMap.GetCellTileData(targetTile);
 
-        _obstacles.IsSwordHitObstacle(targetTile, _tileMap);
+        //We don't care about the result, we just press it if its there 
+        _obstacles.IsHitButton(targetTile, _tileMap);
+        var bridge = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: false);
+        var bull = _obstacles.IsHitBull(targetTile, _tileMap);
+        var tileType = targetTileData.GetCustomData("type").AsString();
+        var walkable = tileType == "floor" || tileType == "door" || bridge != null;
 
-        return targetTileData.GetCustomData("type").AsString() != "floor" ? _GetCurrentTilePosition() : targetTile;
+        return walkable && bull == null
+            ? targetTile
+            : _GetCurrentTilePosition();
     }
 
 
@@ -129,12 +136,23 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition();
         var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
 
+        var bull = _obstacles.IsHitBull(targetTile, _tileMap);
+        var bridge = _obstacles.IsHitBridge(targetTile + direction, _tileMap);
 
+        // Stoppin' criteria is hitting a wall, bull, or bridge
         while (targetTileData.GetCustomData("type").AsString() != "wall" &&
-               !_obstacles.IsBowHitObstacle(targetTile, _tileMap, direction))
+               bull == null && bridge == null)
         {
             targetTile += direction;
+            bull = _obstacles.IsHitBull(targetTile, _tileMap);
+            bridge = _obstacles.IsHitBridge(targetTile + direction, _tileMap);
             targetTileData = _tileMap.GetCellTileData(targetTile + direction);
+        }
+
+        if (bull != null)
+        {
+            bull.Hide();
+            bull.IsInteractable = false;
         }
 
         return targetTile;
