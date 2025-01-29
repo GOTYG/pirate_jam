@@ -28,7 +28,7 @@ public partial class Player : Area2D
 
         if (GlobalPosition != _globalTargetPosition)
         {
-            GlobalPosition = GlobalPosition.MoveToward(_globalTargetPosition, 2); //TODO: not hardcoded delta
+            GlobalPosition = GlobalPosition.MoveToward(_globalTargetPosition, _weapon.WeaponSpeed); 
             return;
         }
 
@@ -36,6 +36,12 @@ public partial class Player : Area2D
         {
             EmitSignal(SignalName.NextLevel);
         }
+
+        if (_tileMap.GetCellTileData(_GetCurrentTilePosition()).GetCustomData("type").AsString() == "pit")
+        {
+            GD.Print("die");
+        }
+
 
         _isMoving = false;
     }
@@ -54,6 +60,9 @@ public partial class Player : Area2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        if (_isMoving)
+            return;
+
         if (Input.IsActionJustPressed("sword"))
         {
             _weapon = new Sword();
@@ -73,9 +82,6 @@ public partial class Player : Area2D
             Rotation = 0;
         }
 
-
-        if (_isMoving)
-            return;
 
         if (Input.IsActionJustPressed("move_down"))
         {
