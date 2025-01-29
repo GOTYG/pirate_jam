@@ -17,6 +17,11 @@ public partial class Bull : Sprite2D, IInteractable
 
     public void OnPlayerWhip(Vector2I whipPos)
     {
+        if (!IsInteractable)
+        {
+            return;
+        }
+
         _isMoving = true;
         var deltaX = whipPos.X - Position.X;
         var deltaY = whipPos.Y - Position.Y;
@@ -34,6 +39,8 @@ public partial class Bull : Sprite2D, IInteractable
             else direction = Vector2I.Down;
         }
 
+        // Rotation = Mathf.Atan2(direction.X, direction.Y);
+
         //TODO update rotation/mirror image
 
         var currentTile = _GetCurrentTilePosition();
@@ -42,9 +49,8 @@ public partial class Bull : Sprite2D, IInteractable
 
         var bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
         var bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
-        var button = _obstacles.IsHitButton(currentTile, _tileMap);
 
-        //TODO get buttons and check for press
+
         while (nextTileData.GetCustomData("type").AsString() != "wall" &&
                curTileData.GetCustomData("type").AsString() != "pit" && bull == null && bridge == null)
         {
@@ -52,15 +58,15 @@ public partial class Bull : Sprite2D, IInteractable
             currentTile += direction;
             bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
             bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
-            button = _obstacles.IsHitButton(currentTile, _tileMap);
+            _obstacles.IsHitButton(currentTile, _tileMap);
             nextTileData = _tileMap.GetCellTileData(currentTile + direction);
         }
 
         if (curTileData.GetCustomData("type").AsString() == "pit")
         {
             //TODO: Don't hardcode and make new tile (filled pit)
-            var floorTileAtlasLoc = new Vector2I(2, 4);
-            _tileMap.SetCell(currentTile, 0, atlasCoords: floorTileAtlasLoc, 0);
+            // var floorTileAtlasLoc = new Vector2I(2, 3);
+            // _tileMap.SetCell(currentTile, 0, atlasCoords: floorTileAtlasLoc, 0);
             IsInteractable = false;
         }
 

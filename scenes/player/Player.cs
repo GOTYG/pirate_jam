@@ -54,9 +54,6 @@ public partial class Player : Area2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("restart"))
-            GetTree().ReloadCurrentScene();
-
         if (Input.IsActionJustPressed("sword"))
         {
             _weapon = new Sword();
@@ -73,6 +70,7 @@ public partial class Player : Area2D
         {
             _weapon = new Whip();
             _spriteAnimation.Play(_weapon.Animations["idle"]);
+            Rotation = 0;
         }
 
 
@@ -80,15 +78,28 @@ public partial class Player : Area2D
             return;
 
         if (Input.IsActionJustPressed("move_down"))
-            SelectDirection(Vector2I.Down);
-        else if (Input.IsActionJustPressed("move_up"))
-            SelectDirection(Vector2I.Up);
-        else if (Input.IsActionJustPressed("move_left"))
-            SelectDirection(Vector2I.Left);
-        else if (Input.IsActionJustPressed("move_right"))
-            SelectDirection(Vector2I.Right);
-        else if (Input.IsActionJustPressed("move_confirm") && _directionSprite.Visible)
         {
+            SelectDirection(Vector2I.Down);
+        }
+        else if (Input.IsActionJustPressed("move_up"))
+        {
+            SelectDirection(Vector2I.Up);
+        }
+        else if (Input.IsActionJustPressed("move_left"))
+        {
+            SelectDirection(Vector2I.Left);
+        }
+        else if (Input.IsActionJustPressed("move_right"))
+        {
+            SelectDirection(Vector2I.Right);
+        }
+        else if (Input.IsActionJustPressed("move_confirm"))
+        {
+            if (_weapon.DirectionSpriteEnabled && !_directionSprite.Visible)
+            {
+                return;
+            }
+
             ProcessSpecialMove();
 
             MovePlayer(_selectedDirection);
@@ -99,8 +110,12 @@ public partial class Player : Area2D
     {
         _selectedDirection = direction;
         _directionSprite.Position = direction;
-        _directionSprite.Rotation = Mathf.Atan2(direction.Y, direction.X);
-        _directionSprite.Visible = true;
+        if (_weapon.DirectionSpriteEnabled)
+        {
+            Rotation = Mathf.Atan2(direction.Y, direction.X);
+            _directionSprite.Rotation = Mathf.Atan2(direction.Y, direction.X);
+            _directionSprite.Visible = true;
+        }
 
         Vector2I currTile = _GetCurrentTilePosition();
         _directionSprite.GlobalPosition = _tileMap.MapToLocal(currTile + direction);
@@ -121,11 +136,13 @@ public partial class Player : Area2D
         //We don't care about the result, we just press it if its there 
         _obstacles.IsHitButton(targetTile, _tileMap);
         var bridge = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: false);
-        var bull = _obstacles.IsHitBull(targetTile, _tileMap);
+        var bullInTheWay = _obstacles.IsHitBull(targetTile, _tileMap, true);
+        var bullInPit = _obstacles.IsHitBull(targetTile, _tileMap, false);
         var tileType = targetTileData.GetCustomData("type").AsString();
         var walkable = tileType == "floor" || tileType == "door" || bridge != null;
+        var filledPit = tileType == "pit" && bullInPit != null && _tileMap.LocalToMap(bullInPit.Position) == targetTile;
 
-        return walkable && bull == null
+        return walkable && bullInTheWay == null || filledPit
             ? targetTile
             : _GetCurrentTilePosition();
     }
