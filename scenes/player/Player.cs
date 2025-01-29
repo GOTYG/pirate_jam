@@ -32,14 +32,17 @@ public partial class Player : Area2D
             return;
         }
 
-        if (_tileMap.GetCellTileData(_GetCurrentTilePosition()).GetCustomData("type").AsString() == "door")
+        var curTile = _tileMap.GetCellTileData(_GetCurrentTilePosition());
+        if (curTile.GetCustomData("type").AsString() == "door")
         {
             EmitSignal(SignalName.NextLevel, GetParent().SceneFilePath);
         }
 
-        if (_tileMap.GetCellTileData(_GetCurrentTilePosition()).GetCustomData("type").AsString() == "pit")
+        if (curTile.GetCustomData("type").AsString() == "pit")
         {
-            GD.Print("die");
+            var bridge = _obstacles.IsHitBridge(_GetCurrentTilePosition(), _tileMap, isUp: false);
+            var bullInPit = _obstacles.IsHitBull(_GetCurrentTilePosition(), _tileMap, false);
+            if(bridge ==null && bullInPit == null) GD.Print("die");
         }
 
 
