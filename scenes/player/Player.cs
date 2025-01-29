@@ -34,7 +34,7 @@ public partial class Player : Area2D
 
         if (_tileMap.GetCellTileData(_GetCurrentTilePosition()).GetCustomData("type").AsString() == "door")
         {
-            EmitSignal(SignalName.NextLevel, GetParent().SceneFilePath);
+            EmitSignal(SignalName.NextLevel);
         }
 
         _isMoving = false;
