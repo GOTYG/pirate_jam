@@ -12,8 +12,7 @@ public partial class Player : Area2D
     [Signal]
     public delegate void NextLevelEventHandler();
 
-    private Dictionary<int, int> _ammoCount;
-
+    [Export] private Dictionary<int, int> _ammoCount;
 
     private PlayerWeapon _weapon;
     private Hud _hud;
@@ -24,6 +23,12 @@ public partial class Player : Area2D
     private Vector2I _selectedDirection;
     private Sprite2D _directionSprite;
     private Obstacles _obstacles;
+
+    public Dictionary<int, int> AmmoCount
+    {
+        get { return _ammoCount; }
+        set => _ammoCount = value;
+    }
 
 
     public override void _PhysicsProcess(double delta)
@@ -63,8 +68,6 @@ public partial class Player : Area2D
         _spriteAnimation.Play(_weapon.Animations["idle"]);
         _tileMap = GetParent().GetNode<TileMapLayer>("Map");
         _obstacles = GetParent().GetNode<Obstacles>("Obstacles");
-
-        _ammoCount = GetMeta("Ammo").As<Dictionary<int, int>>();
         UpdateHud();
     }
 
@@ -89,7 +92,7 @@ public partial class Player : Area2D
         if (Input.IsActionJustPressed("bow"))
         {
             _weapon = new Bow();
-            if (_directionSprite != null) _directionSprite.Visible = false;
+            _directionSprite.Visible = false;
             _directionSprite = GetNode<Sprite2D>("Arrow");
             _spriteAnimation.Play(_weapon.Animations["idle"]);
         }
@@ -97,6 +100,7 @@ public partial class Player : Area2D
         if (Input.IsActionJustPressed("whip"))
         {
             _weapon = new Whip();
+            _directionSprite.Visible = false;  // Fix bow direction sprite still showing
             _directionSprite = GetNode<Sprite2D>("Omni");
             _directionSprite.Position = Position;
             _directionSprite.Visible = true;
@@ -157,8 +161,8 @@ public partial class Player : Area2D
         {
             SelectDirection(Vector2I.Right);
         }
-        else if (Input.IsActionJustPressed("move_confirm") 
-                 && _ammoCount[(int)_weapon.Name] > 0 
+        else if (Input.IsActionJustPressed("move_confirm")
+                 && _ammoCount[(int)_weapon.Name] > 0
                  && _selectedDirection != Vector2I.Zero)
         {
             _ammoCount[(int)_weapon.Name]--;
