@@ -1,4 +1,6 @@
+using System;
 using Godot;
+using Godot.Collections;
 
 namespace PirateJam.scenes.player;
 
@@ -10,7 +12,10 @@ public partial class Player : Area2D
     [Signal]
     public delegate void NextLevelEventHandler();
 
+    [Export] private Dictionary<int, int> _ammoCount;
+
     private PlayerWeapon _weapon;
+    private Hud _hud;
     private TileMapLayer _tileMap;
     private AnimatedSprite2D _spriteAnimation;
     private bool _isMoving;
@@ -18,6 +23,12 @@ public partial class Player : Area2D
     private Vector2I _selectedDirection;
     private Sprite2D _directionSprite;
     private Obstacles _obstacles;
+
+    public Dictionary<int, int> AmmoCount
+    {
+        get { return _ammoCount; }
+        set => _ammoCount = value;
+    }
 
 
     public override void _PhysicsProcess(double delta)
@@ -51,10 +62,18 @@ public partial class Player : Area2D
     public override void _Ready()
     {
         _weapon = new Wizard();
+        _hud = GetNode<Hud>("HUD");
+        _directionSprite = GetNode<Sprite2D>("Arrow");
         _spriteAnimation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _spriteAnimation.Play(_weapon.Animations["idle"]);
         _tileMap = GetParent().GetNode<TileMapLayer>("Map");
         _obstacles = GetParent().GetNode<Obstacles>("Obstacles");
+        UpdateHud();
+    }
+
+    private void UpdateHud()
+    {
+        _hud.UpdateAmmoCounts(_ammoCount);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -73,7 +92,7 @@ public partial class Player : Area2D
         if (Input.IsActionJustPressed("bow"))
         {
             _weapon = new Bow();
-            if (_directionSprite != null) _directionSprite.Visible = false;
+            _directionSprite.Visible = false;
             _directionSprite = GetNode<Sprite2D>("Arrow");
             _spriteAnimation.Play(_weapon.Animations["idle"]);
         }
@@ -81,12 +100,14 @@ public partial class Player : Area2D
         if (Input.IsActionJustPressed("whip"))
         {
             _weapon = new Whip();
+            _directionSprite.Visible = false;  // Fix bow direction sprite still showing
             _directionSprite = GetNode<Sprite2D>("Omni");
             _directionSprite.Position = Position;
             _directionSprite.Visible = true;
             _spriteAnimation.Play(_weapon.Animations["idle"]);
             Rotation = 0;
         }
+
 
         switch (_weapon.SpecialMoveCategoryMode)
         {
@@ -104,19 +125,19 @@ public partial class Player : Area2D
 
     private void _ProcessNoSpecialMove()
     {
-        if (Input.IsActionJustPressed("move_down"))
+        if (Input.IsActionPressed("move_down"))
         {
             MovePlayer(Vector2I.Down);
         }
-        else if (Input.IsActionJustPressed("move_up"))
+        else if (Input.IsActionPressed("move_up"))
         {
             MovePlayer(Vector2I.Up);
         }
-        else if (Input.IsActionJustPressed("move_left"))
+        else if (Input.IsActionPressed("move_left"))
         {
             MovePlayer(Vector2I.Left);
         }
-        else if (Input.IsActionJustPressed("move_right"))
+        else if (Input.IsActionPressed("move_right"))
         {
             MovePlayer(Vector2I.Right);
         }
@@ -140,18 +161,24 @@ public partial class Player : Area2D
         {
             SelectDirection(Vector2I.Right);
         }
-        else if (Input.IsActionJustPressed("move_confirm"))
+        else if (Input.IsActionJustPressed("move_confirm")
+                 && _ammoCount[(int)_weapon.Name] > 0
+                 && _selectedDirection != Vector2I.Zero)
         {
+            _ammoCount[(int)_weapon.Name]--;
             _directionSprite.Visible = false;
             MovePlayer(_selectedDirection);
+            UpdateHud();
         }
     }
 
     private void _ProcessOmnidirectionalSpecialMove()
     {
-        if (Input.IsActionJustPressed("move_confirm"))
+        if (Input.IsActionJustPressed("move_confirm") && _ammoCount[(int)_weapon.Name] > 0)
         {
             ProcessSpecialMove();
+            _ammoCount[(int)_weapon.Name]--;
+            UpdateHud();
         }
     }
 
@@ -182,12 +209,13 @@ public partial class Player : Area2D
         // We don't care about the result, we just press it if its there 
         _obstacles.IsHitButton(targetTile, _tileMap);
         var bridge = _obstacles.GetBridgeWithStatus(targetTile, _tileMap, isUp: false);
+        var bridgeInPath = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: true);
+
         var bullInTheWay = _obstacles.GetBullWithStatus(targetTile, _tileMap);
         var bullInPit = _obstacles.GetBullWithStatus(targetTile, _tileMap, false);
         var tileType = targetTileData.GetCustomData("type").AsString();
-        var walkable = tileType == "floor" || tileType == "door" || bridge != null;
-        var filledPit = tileType == "pit" && bullInPit != null && _tileMap.LocalToMap(bullInPit.Position) == targetTile;
-
+        var walkable = (tileType == "floor" || tileType == "door") && bridgeInPath == null;
+        var filledPit = tileType == "pit" && (bullInPit != null || bridge != null);
         return walkable && bullInTheWay == null || filledPit
             ? targetTile
             : _GetCurrentTilePosition();

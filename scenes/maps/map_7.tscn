@@ -1,0 +1,167 @@
+[gd_scene load_steps=7 format=4 uid="uid://cttqptfc4u6j7"]
+
+[ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_yw5f2"]
+[ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="2_qvhds"]
+[ext_resource type="PackedScene" uid="uid://cxn0rpgsso3ui" path="res://obstacles.tscn" id="3_yp85f"]
+[ext_resource type="PackedScene" uid="uid://di7p6vqn5xxc0" path="res://bridge.tscn" id="4_n3m6c"]
+[ext_resource type="PackedScene" uid="uid://s5bysbi848gh" path="res://button.tscn" id="5_bl7me"]
+[ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="7_konsv"]
+
+[node name="Map_2" type="Node2D"]
+script = ExtResource("1_yw5f2")
+
+[node name="Map" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAcAAAACAAIAAAAKAAYAAAACAAEAAAAKAAUAAAACAAEAAAAKAAQAAAACAAEAAAAKAAMAAAACAAEAAAAKAAIAAAACAAEAAAAKAAEAAAACAAEAAAAJAAcAAAABAAIAAAAIAAcAAAABAAIAAAAHAAcAAAABAAIAAAAGAAcAAAABAAIAAAAFAAcAAAABAAIAAAAEAAcAAAABAAIAAAADAAcAAAABAAIAAAACAAcAAAABAAIAAAABAAcAAAABAAIAAAAAAAYAAAAAAAEAAAAAAAUAAAAAAAEAAAAAAAQAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAcAAAAAAAIAAAAKAAAAAAACAAAAAAABAAEAAAAEAAIAAAACAAEAAAAEAAIAAAACAAIAAAADAAIAAAADAAIAAAADAAIAAAAEAAMAAAAEAAIAAAAFAAMAAAAEAAIAAAAFAAQAAAAEAAIAAAAGAAQAAAAEAAIAAAAHAAQAAAAEAAIAAAAHAAUAAAAEAAIAAAAIAAUAAAAEAAIAAAAIAAYAAAAEAAIAAAAJAAYAAAAEAAIAAAAJAAUAAAAEAAIAAAAJAAQAAAAEAAIAAAAJAAMAAAAEAAIAAAAJAAIAAAAEAAIAAAAJAAEAAAAEAAIAAAAIAAEAAAAEAAIAAAAHAAEAAAAEAAIAAAAGAAEAAAAEAAIAAAAFAAEAAAAEAAIAAAAEAAEAAAAEAAIAAAADAAEAAAAEAAIAAAAEAAIAAAADAAIAAAAFAAIAAAADAAIAAAAGAAIAAAADAAIAAAAHAAIAAAADAAIAAAAIAAMAAAAEAAIAAAAIAAQAAAAEAAIAAAAIAAIAAAADAAIAAAAHAAMAAAAEAAIAAAAGAAMAAAAEAAIAAAAEAAQAAAAEAAIAAAAFAAUAAAAEAAIAAAAGAAUAAAAEAAIAAAAHAAYAAAAEAAIAAAAGAAYAAAAEAAIAAAAFAAYAAAAEAAIAAAAEAAYAAAAEAAIAAAADAAYAAAAEAAIAAAACAAYAAAAEAAIAAAABAAYAAAABAAMAAAABAAUAAAAEAAIAAAABAAQAAAAEAAIAAAABAAMAAAAEAAIAAAABAAIAAAADAAIAAAACAAMAAAAEAAIAAAACAAQAAAAEAAIAAAACAAUAAAAEAAIAAAADAAMAAAAEAAIAAAADAAQAAAAEAAIAAAADAAUAAAAEAAIAAAAEAAUAAAAEAAIAAAA=")
+tile_set = ExtResource("2_qvhds")
+
+[node name="StartMarker" type="Marker2D" parent="."]
+position = Vector2(48, 48)
+
+[node name="Obstacles" parent="." instance=ExtResource("3_yp85f")]
+
+[node name="Bridge" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(143, 112)
+rotation = -3.14159
+scale = Vector2(1, -1)
+IsUp = false
+Id = 6
+
+[node name="Bridge2" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(176, 143)
+rotation = -3.14159
+scale = Vector2(1, -1)
+IsUp = false
+Id = 5
+
+[node name="Bridge3" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(241, 144)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 2
+
+[node name="Bridge6" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(272, 112)
+rotation = -3.14159
+scale = Vector2(1, -1)
+IsUp = false
+Id = 1
+
+[node name="Bridge7" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(304, 144)
+rotation = -3.14159
+scale = Vector2(1, -1)
+IsUp = false
+Id = 2
+
+[node name="Bridge8" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(304, 208)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 3
+
+[node name="Bridge9" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(240, 208)
+rotation = -3.14159
+scale = Vector2(1, -1)
+IsUp = false
+Id = 4
+
+[node name="Bridge10" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(208, 176)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 5
+
+[node name="Bridge11" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(177, 207)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 4
+
+[node name="Bridge12" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(144, 176)
+rotation = -3.14159
+scale = Vector2(1, -1)
+IsUp = false
+Id = 5
+
+[node name="Bridge13" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(110, 208)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 4
+
+[node name="Bridge14" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(81, 176)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 4
+
+[node name="Bridge15" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(112, 144)
+rotation = -3.14159
+scale = Vector2(1, -1)
+IsUp = false
+Id = 4
+
+[node name="Bridge16" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(79, 113)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 6
+
+[node name="Bridge17" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(47, 144)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 1
+
+[node name="Bridge18" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(304, 80)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 1
+
+[node name="Bridge4" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(273, 175)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 2
+
+[node name="Bridge5" parent="Obstacles" instance=ExtResource("4_n3m6c")]
+position = Vector2(208, 113)
+rotation = -3.14159
+scale = Vector2(1, -1)
+Id = 3
+
+[node name="Button" parent="Obstacles" instance=ExtResource("5_bl7me")]
+position = Vector2(111, 46)
+BridgeId = 2
+
+[node name="Button2" parent="Obstacles" instance=ExtResource("5_bl7me")]
+position = Vector2(143, 46)
+BridgeId = 5
+
+[node name="Button3" parent="Obstacles" instance=ExtResource("5_bl7me")]
+position = Vector2(176, 46)
+BridgeId = 6
+
+[node name="Button4" parent="Obstacles" instance=ExtResource("5_bl7me")]
+position = Vector2(207, 46)
+BridgeId = 3
+
+[node name="Button5" parent="Obstacles" instance=ExtResource("5_bl7me")]
+position = Vector2(239, 46)
+BridgeId = 4
+
+[node name="Button6" parent="Obstacles" instance=ExtResource("5_bl7me")]
+position = Vector2(270, 46)
+BridgeId = 1
+
+[node name="Player" parent="." instance=ExtResource("7_konsv")]
+z_index = 2
+position = Vector2(-30, 48)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(200, 152)
+zoom = Vector2(2.5, 2.5)

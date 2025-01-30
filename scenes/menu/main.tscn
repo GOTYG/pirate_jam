@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://drp6nip5fbgx7"]
+[gd_scene load_steps=3 format=3 uid="uid://drp6nip5fbgx7"]
 
 [ext_resource type="Script" path="res://scenes/menu/Main.cs" id="1_u5tsd"]
-[ext_resource type="PackedScene" uid="uid://01fidtav06x0" path="res://item.tscn" id="2_ef3ws"]
 [ext_resource type="FontFile" uid="uid://cifqecryg7771" path="res://art/fonts/Macondo-Regular.ttf" id="2_oqd1f"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_u5tsd")
+CurrentScene = 5
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -16,8 +16,6 @@ grow_vertical = 2
 color = Color(0.0627451, 0.121569, 0.145098, 1)
 
 [node name="HUD" type="CanvasLayer" parent="."]
-
-[node name="CanvasLayer" parent="HUD" instance=ExtResource("2_ef3ws")]
 
 [node name="LevelHint" type="NinePatchRect" parent="HUD"]
 offset_left = 116.0
