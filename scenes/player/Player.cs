@@ -12,6 +12,9 @@ public partial class Player : Area2D
     [Signal]
     public delegate void NextLevelEventHandler();
 
+    [Signal]
+    public delegate void DeathEventHandler();
+
     [Export] public Dictionary<int, int>? AmmoCount { get; set; }
 
     private PlayerWeapon _weapon;
@@ -45,7 +48,7 @@ public partial class Player : Area2D
         {
             var bridge = _obstacles.GetBridgeWithStatus(_GetCurrentTilePosition(), _tileMap, isUp: false);
             var bullInPit = _obstacles.GetBullWithStatus(_GetCurrentTilePosition(), _tileMap, false);
-            if (bridge == null && bullInPit == null) GD.Print("die");
+            if (bridge == null && bullInPit == null) EmitSignal(SignalName.Death);
         }
 
 
