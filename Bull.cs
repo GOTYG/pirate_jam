@@ -39,7 +39,7 @@ public partial class Bull : Sprite2D, IInteractable
             else direction = Vector2I.Down;
         }
 
-        // Rotation = Mathf.Atan2(direction.X, direction.Y);
+        Rotation = Mathf.Atan2(direction.Y, direction.X);
 
         //TODO update rotation/mirror image
 
