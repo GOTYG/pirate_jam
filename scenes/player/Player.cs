@@ -43,8 +43,8 @@ public partial class Player : Area2D
 
         if (curTile.GetCustomData("type").AsString() == "pit")
         {
-            var bridge = _obstacles.IsHitBridge(_GetCurrentTilePosition(), _tileMap, isUp: false);
-            var bullInPit = _obstacles.IsHitBull(_GetCurrentTilePosition(), _tileMap, false);
+            var bridge = _obstacles.GetBridgeWithStatus(_GetCurrentTilePosition(), _tileMap, isUp: false);
+            var bullInPit = _obstacles.GetBullWithStatus(_GetCurrentTilePosition(), _tileMap, false);
             if (bridge == null && bullInPit == null) GD.Print("die");
         }
 
@@ -212,11 +212,11 @@ public partial class Player : Area2D
 
         // We don't care about the result, we just press it if its there 
         _obstacles.IsHitButton(targetTile, _tileMap);
-        var bridge = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: false);
-        var bridgeInPath = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: true);
+        var bridge = _obstacles.GetBridgeWithStatus(targetTile, _tileMap, isUp: false);
+        var bridgeInPath = _obstacles.GetBridgeWithStatus(targetTile, _tileMap, isUp: true);
 
-        var bullInTheWay = _obstacles.IsHitBull(targetTile, _tileMap);
-        var bullInPit = _obstacles.IsHitBull(targetTile, _tileMap, false);
+        var bullInTheWay = _obstacles.GetBullWithStatus(targetTile, _tileMap);
+        var bullInPit = _obstacles.GetBullWithStatus(targetTile, _tileMap, false);
         var tileType = targetTileData.GetCustomData("type").AsString();
         var walkable = (tileType == "floor" || tileType == "door") && bridgeInPath == null;
         var filledPit = tileType == "pit" && (bullInPit != null || bridge != null);
@@ -238,16 +238,16 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition();
         var targetTileData = _tileMap.GetCellTileData(targetTile + direction);
 
-        var bull = _obstacles.IsHitBull(targetTile, _tileMap);
-        var bridge = _obstacles.IsHitBridge(targetTile + direction, _tileMap);
+        var bull = _obstacles.GetBullWithStatus(targetTile, _tileMap);
+        var bridge = _obstacles.GetBridgeWithStatus(targetTile + direction, _tileMap);
 
         // Stoppin' criteria is hitting a wall, bull, or bridge
         while (targetTileData.GetCustomData("type").AsString() != "wall" &&
                bull == null && bridge == null)
         {
             targetTile += direction;
-            bull = _obstacles.IsHitBull(targetTile, _tileMap);
-            bridge = _obstacles.IsHitBridge(targetTile + direction, _tileMap);
+            bull = _obstacles.GetBullWithStatus(targetTile, _tileMap);
+            bridge = _obstacles.GetBridgeWithStatus(targetTile + direction, _tileMap);
             targetTileData = _tileMap.GetCellTileData(targetTile + direction);
         }
 
