@@ -5,6 +5,7 @@
 
 [node name="Main" type="Node"]
 script = ExtResource("1_u5tsd")
+CurrentScene = 5
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
