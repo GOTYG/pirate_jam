@@ -1,8 +1,7 @@
-using System;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
-using PirateJam;
+using PirateJam.scenes.player;
 
 namespace PirateJam;
 
@@ -22,10 +21,22 @@ public partial class Obstacles : Node
         var children = GetChildren();
         foreach (var child in children)
         {
-            //TODO there's probably a cleaner way to do this
             if (child is Bull bull) _bulls.Add(bull);
             else if (child is Bridge bridge) _bridges.Add(bridge);
             else if (child is Button button) _buttons.Add(button);
+        }
+
+        GetNode<Player>("../Player").Whip += OnPlayerWhip;
+    }
+
+    public void OnPlayerWhip(Vector2I whipPosition)
+    {
+        var claimedPits = new List<Vector2I>();
+        // TODO: Sort bulls by distance from whip.
+        foreach (var bull in GetInteractableBulls())
+        {
+            var maybeClaimed = bull.MoveDueToWhip(whipPosition, claimedPits);
+            if (maybeClaimed is { } claimed) claimedPits.Add(claimed);
         }
     }
 
@@ -60,7 +71,7 @@ public partial class Obstacles : Node
     }
 
 
-    public Bridge? IsHitBridge(Vector2I tile, TileMapLayer tileMap, bool isUp = true)
+    public Bridge? GetBridgeWithStatus(Vector2I tile, TileMapLayer tileMap, bool isUp = true)
     {
         var bridges = GetBridges(isUp);
 
@@ -75,7 +86,7 @@ public partial class Obstacles : Node
         return null;
     }
 
-    public Bull? IsHitBull(Vector2I tile, TileMapLayer tileMap, bool isInteractable = true)
+    public Bull? GetBullWithStatus(Vector2I tile, TileMapLayer tileMap, bool isInteractable = true)
     {
         var bulls = GetInteractableBulls(isInteractable);
 
