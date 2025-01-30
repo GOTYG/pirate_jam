@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using PirateJam.scenes.player;
+using System.Collections.Generic;
 
 namespace PirateJam;
 
@@ -10,67 +10,62 @@ public partial class Bull : Sprite2D, IInteractable
     private bool _isMoving;
     private Vector2 _globalTargetPosition;
     private Obstacles _obstacles;
-    private Player _player;
 
     public bool IsInteractable { get; set; }
 
-
-    public void OnPlayerWhip(Vector2I whipPos)
+    public Vector2I? MoveDueToWhip(Vector2I whipPos, List<Vector2I> claimedPits)
     {
-        if (!IsInteractable)
-        {
-            return;
-        }
-
         _isMoving = true;
         var deltaX = whipPos.X - Position.X;
         var deltaY = whipPos.Y - Position.Y;
+
         Vector2I direction;
-
-
         if (Math.Abs(deltaX) > Math.Abs(deltaY))
         {
-            if (Mathf.Sign(deltaX) == 1) direction = Vector2I.Left;
-            else direction = Vector2I.Right;
+            direction = Mathf.Sign(deltaX) == 1 ? Vector2I.Left : Vector2I.Right;
         }
         else
         {
-            if (Mathf.Sign(deltaY) == 1) direction = Vector2I.Up;
-            else direction = Vector2I.Down;
+            direction = Mathf.Sign(deltaY) == 1 ? Vector2I.Up : Vector2I.Down;
         }
 
-        // Rotation = Mathf.Atan2(direction.X, direction.Y);
-
-        //TODO update rotation/mirror image
-
-        var currentTile = _GetCurrentTilePosition();
-        var curTileData = _tileMap.GetCellTileData(currentTile);
-        var nextTileData = _tileMap.GetCellTileData(currentTile + direction);
-
-        var bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
-        var bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
-
-
-        while (nextTileData.GetCustomData("type").AsString() != "wall" &&
-               curTileData.GetCustomData("type").AsString() != "pit" && bull == null && bridge == null)
+        var targetTile = _CalculateMovement(direction, claimedPits);
+        var targetTileData = _tileMap.GetCellTileData(targetTile);
+        _globalTargetPosition = _tileMap.MapToLocal(targetTile);
+        
+        if (targetTileData.GetCustomData("type").AsString() == "pit")
         {
-            curTileData = nextTileData;
-            currentTile += direction;
-            bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
-            bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
-            _obstacles.IsHitButton(currentTile, _tileMap);
-            nextTileData = _tileMap.GetCellTileData(currentTile + direction);
-        }
-
-        if (curTileData.GetCustomData("type").AsString() == "pit")
-        {
-            //TODO: Don't hardcode and make new tile (filled pit)
-            // var floorTileAtlasLoc = new Vector2I(2, 3);
-            // _tileMap.SetCell(currentTile, 0, atlasCoords: floorTileAtlasLoc, 0);
             IsInteractable = false;
+            return targetTile;
+        }
+        
+        return null;
+    }
+
+    private Vector2I _CalculateMovement(Vector2I direction, List<Vector2I> claimedPits)
+    {
+        var currentTile = _GetCurrentTilePosition();
+        while (true)
+        {
+            var curTileData = _tileMap.GetCellTileData(currentTile);
+            var nextTileData = _tileMap.GetCellTileData(currentTile + direction);
+
+            var isNextToWall = nextTileData.GetCustomData("type").AsString() == "wall";
+            var bullInPath = _obstacles.GetBullWithStatus(currentTile + direction, _tileMap);
+            var bridgeInPath = _obstacles.GetBridgeWithStatus(currentTile + direction, _tileMap, isUp: true);
+            var wouldHitImpass = isNextToWall || (bullInPath != null) || (bridgeInPath != null);
+
+            var isOverPit = curTileData.GetCustomData("type").AsString() == "pit";
+            var bullInIt = _obstacles.GetBullWithStatus(currentTile, _tileMap, false) != null;
+            var bullClaimedIt = claimedPits.Contains(currentTile);
+            var bridgeOverIt = _obstacles.GetBridgeWithStatus(currentTile, _tileMap, isUp: false) != null;
+            var isInPit = isOverPit && !bullInIt && !bullClaimedIt && !bridgeOverIt;
+
+            if (wouldHitImpass || isInPit) break;
+            currentTile += direction;
         }
 
-        _globalTargetPosition = _tileMap.MapToLocal(currentTile);
+        return currentTile;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -97,8 +92,6 @@ public partial class Bull : Sprite2D, IInteractable
     {
         var parent = GetParent();
         _tileMap = parent.GetParent().GetNode<TileMapLayer>("Map");
-        _player = parent.GetParent().GetNode<Player>("Player");
-        _player.Whip += OnPlayerWhip;
         _obstacles = parent as Obstacles;
         IsInteractable = true;
     }
