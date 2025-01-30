@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bixeqh07t6dnb"]
+[gd_scene load_steps=16 format=3 uid="uid://bixeqh07t6dnb"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_lltbs"]
 [ext_resource type="Texture2D" uid="uid://damtktdjsffee" path="res://art/animations/bow_shooting_animation_Shoot_0.png" id="3_yfscs"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://pgo10hax72q0" path="res://art/arrow_selected.png" id="9_4sbsi"]
 [ext_resource type="Texture2D" uid="uid://c8dkk7s0vgjf7" path="res://art/whip.png" id="9_dgiam"]
 [ext_resource type="Texture2D" uid="uid://beb2520fwmfny" path="res://art/omni-arrow.png" id="11_5g70m"]
+[ext_resource type="Texture2D" uid="uid://dwc7g58h1w6sd" path="res://art/menu_frame.png" id="11_h1fb3"]
+[ext_resource type="Script" path="res://scenes/player/Hud.cs" id="12_82b1i"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r4t57"]
 animations = [{
@@ -85,3 +87,55 @@ texture = ExtResource("9_4sbsi")
 visible = false
 top_level = true
 texture = ExtResource("11_5g70m")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("12_82b1i")
+
+[node name="AmmoCounts" type="VBoxContainer" parent="HUD"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -142.0
+offset_top = -100.0
+offset_right = -96.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(3, 3)
+metadata/_edit_group_ = true
+
+[node name="BowAmmo" type="HBoxContainer" parent="HUD/AmmoCounts"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="HUD/AmmoCounts/BowAmmo"]
+layout_mode = 2
+texture_normal = ExtResource("11_h1fb3")
+
+[node name="TextureRect" type="TextureRect" parent="HUD/AmmoCounts/BowAmmo/TextureButton"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("3_yfscs")
+
+[node name="BowCount" type="Label" parent="HUD/AmmoCounts/BowAmmo"]
+layout_mode = 2
+text = "2"
+
+[node name="WhipAmmo" type="HBoxContainer" parent="HUD/AmmoCounts"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="HUD/AmmoCounts/WhipAmmo"]
+layout_mode = 2
+texture_normal = ExtResource("11_h1fb3")
+
+[node name="TextureRect" type="TextureRect" parent="HUD/AmmoCounts/WhipAmmo/TextureButton"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("9_dgiam")
+
+[node name="WhipCount" type="Label" parent="HUD/AmmoCounts/WhipAmmo"]
+layout_mode = 2
+text = "2"
