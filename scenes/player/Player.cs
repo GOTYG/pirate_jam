@@ -50,6 +50,7 @@ public partial class Player : Area2D
 
 
         _isMoving = false;
+        ResetAfterSpecialMove();
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -169,9 +170,7 @@ public partial class Player : Area2D
         {
             GetNode<AudioStreamPlayer>("Sounds/BowShoot").Play();
             AmmoCount[(int)_weapon.Name]--;
-            _directionSprite.Visible = false;
             MovePlayer(_selectedDirection);
-            UpdateHud();
         }
     }
 
@@ -182,8 +181,17 @@ public partial class Player : Area2D
             GetNode<AudioStreamPlayer>("Sounds/WhipSound").Play();
             ProcessSpecialMove();
             AmmoCount[(int)_weapon.Name]--;
-            UpdateHud();
+            ResetAfterSpecialMove();
         }
+    }
+
+    public void ResetAfterSpecialMove()
+    {
+        UpdateHud();
+        _weapon = new Wizard();
+        _directionSprite.Visible = false;
+        _spriteAnimation.Play(_weapon.Animations["idle"]);
+        _selectedDirection = Vector2I.Zero;
     }
 
     public void SelectDirection(Vector2I direction)
@@ -210,26 +218,32 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition() + direction;
         var targetTileData = _tileMap.GetCellTileData(targetTile);
 
-        // We don't care about the result, we just press it if its there 
-        _obstacles.IsHitButton(targetTile, _tileMap);
+
         var bridge = _obstacles.GetBridgeWithStatus(targetTile, _tileMap, isUp: false);
         var bridgeInPath = _obstacles.GetBridgeWithStatus(targetTile, _tileMap, isUp: true);
 
         var bullInTheWay = _obstacles.GetBullWithStatus(targetTile, _tileMap);
         var bullInPit = _obstacles.GetBullWithStatus(targetTile, _tileMap, false);
         var tileType = targetTileData.GetCustomData("type").AsString();
-        var walkable = (tileType == "floor" || tileType == "door") && bridgeInPath == null;
+        var walkableFloor = (tileType == "floor" || tileType == "door") && bridgeInPath == null;
         var filledPit = tileType == "pit" && (bullInPit != null || bridge != null);
 
-        if (bullInTheWay != null || bullInPit != null)
+        if (bullInTheWay != null || (bullInPit != null && tileType == "pit"))
         {
             var bullSound = GetNode<AudioStreamPlayer>("Sounds/BullInteract");
             if (!bullSound.Playing) bullSound.Play();
         }
 
-        return walkable && bullInTheWay == null || filledPit
-            ? targetTile
-            : _GetCurrentTilePosition();
+        var walkable = walkableFloor && bullInTheWay == null || filledPit;
+
+        if (walkable)
+        {
+            // We don't care about the result, we just press it if its there 
+            _obstacles.IsHitButton(targetTile, _tileMap);
+            return targetTile;
+        }
+
+        return _GetCurrentTilePosition();
     }
 
 
