@@ -14,7 +14,6 @@ public partial class Bull : Sprite2D, IInteractable
 
     public bool IsInteractable { get; set; }
 
-
     public void OnPlayerWhip(Vector2I whipPos)
     {
         if (!IsInteractable)
@@ -47,19 +46,36 @@ public partial class Bull : Sprite2D, IInteractable
         var curTileData = _tileMap.GetCellTileData(currentTile);
         var nextTileData = _tileMap.GetCellTileData(currentTile + direction);
 
-        var bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
-        var bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
+        var bullInPit = _obstacles.IsHitBull(currentTile, _tileMap, false);
+        var bullInPath = _obstacles.IsHitBull(currentTile + direction, _tileMap, true);
+
+        var bridgeInWay = _obstacles.IsHitBridge(currentTile, _tileMap, isUp: true);
+        var bridgeoverPit = _obstacles.IsHitBridge(currentTile, _tileMap, isUp: false);
+
+        var isHitImpass = nextTileData.GetCustomData("type").AsString() == "wall" || bullInPath != null ||
+                          bridgeInWay != null;
+
+        var isPit = curTileData.GetCustomData("type").AsString() == "pit";
+
+        var isHitPit = isPit && bullInPit == null &&
+                       bridgeoverPit == null;
 
 
-        while (nextTileData.GetCustomData("type").AsString() != "wall" &&
-               curTileData.GetCustomData("type").AsString() != "pit" && bull == null && bridge == null)
+        while (!isHitImpass && !isHitPit)
         {
             curTileData = nextTileData;
             currentTile += direction;
-            bull = _obstacles.IsHitBull(currentTile + direction, _tileMap);
-            bridge = _obstacles.IsHitBridge(currentTile + direction, _tileMap);
+            bullInPit = _obstacles.IsHitBull(currentTile, _tileMap, false);
+            bullInPath = _obstacles.IsHitBull(currentTile + direction, _tileMap, true);
+            bridgeInWay = _obstacles.IsHitBridge(currentTile, _tileMap, isUp: true);
+            bridgeoverPit = _obstacles.IsHitBridge(currentTile, _tileMap, isUp: false);
             _obstacles.IsHitButton(currentTile, _tileMap);
             nextTileData = _tileMap.GetCellTileData(currentTile + direction);
+            isHitImpass = nextTileData.GetCustomData("type").AsString() == "wall" || bullInPath != null ||
+                          bridgeInWay != null;
+            isPit = curTileData.GetCustomData("type").AsString() == "pit";
+            isHitPit = isPit && bullInPit == null &&
+                       bridgeoverPit == null;
         }
 
         if (curTileData.GetCustomData("type").AsString() == "pit")
