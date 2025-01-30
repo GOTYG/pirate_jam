@@ -61,5 +61,9 @@ public partial class Main : Node
         var level = scene.Instantiate();
         AddChild(level);
         level.SetName("Level" + CurrentScene);
+        
+        // Reset Metadata, issue in Godot4: https://github.com/godotengine/godot/issues/57268#issuecomment-2140902488
+        var player = GetNode<Player>($"Level{index}/Player");
+        player.AmmoCount = player.AmmoCount.Duplicate();
     }
 }

@@ -12,7 +12,7 @@ public partial class Player : Area2D
     [Signal]
     public delegate void NextLevelEventHandler();
 
-    private Dictionary<int, int> _ammoCount;
+    [Export] public Dictionary<int, int> AmmoCount;
 
 
     private PlayerWeapon _weapon;
@@ -63,14 +63,12 @@ public partial class Player : Area2D
         _spriteAnimation.Play(_weapon.Animations["idle"]);
         _tileMap = GetParent().GetNode<TileMapLayer>("Map");
         _obstacles = GetParent().GetNode<Obstacles>("Obstacles");
-
-        _ammoCount = GetMeta("Ammo").As<Dictionary<int, int>>();
         UpdateHud();
     }
 
     private void UpdateHud()
     {
-        _hud.UpdateAmmoCounts(_ammoCount);
+        _hud.UpdateAmmoCounts(AmmoCount);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -158,10 +156,10 @@ public partial class Player : Area2D
             SelectDirection(Vector2I.Right);
         }
         else if (Input.IsActionJustPressed("move_confirm") 
-                 && _ammoCount[(int)_weapon.Name] > 0 
+                 && AmmoCount[(int)_weapon.Name] > 0 
                  && _selectedDirection != Vector2I.Zero)
         {
-            _ammoCount[(int)_weapon.Name]--;
+            AmmoCount[(int)_weapon.Name]--;
             _directionSprite.Visible = false;
             MovePlayer(_selectedDirection);
             UpdateHud();
@@ -170,10 +168,10 @@ public partial class Player : Area2D
 
     private void _ProcessOmnidirectionalSpecialMove()
     {
-        if (Input.IsActionJustPressed("move_confirm") && _ammoCount[(int)_weapon.Name] > 0)
+        if (Input.IsActionJustPressed("move_confirm") && AmmoCount[(int)_weapon.Name] > 0)
         {
             ProcessSpecialMove();
-            _ammoCount[(int)_weapon.Name]--;
+            AmmoCount[(int)_weapon.Name]--;
             UpdateHud();
         }
     }
