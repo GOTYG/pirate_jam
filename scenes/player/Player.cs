@@ -158,9 +158,10 @@ public partial class Player : Area2D
             SelectDirection(Vector2I.Right);
         }
         else if (Input.IsActionJustPressed("move_confirm") 
-                 && _ammoCount[(int)_weapon.Name]-- > 0 
+                 && _ammoCount[(int)_weapon.Name] > 0 
                  && _selectedDirection != Vector2I.Zero)
         {
+            _ammoCount[(int)_weapon.Name]--;
             _directionSprite.Visible = false;
             MovePlayer(_selectedDirection);
             UpdateHud();
@@ -169,9 +170,10 @@ public partial class Player : Area2D
 
     private void _ProcessOmnidirectionalSpecialMove()
     {
-        if (Input.IsActionJustPressed("move_confirm") && _ammoCount[(int)_weapon.Name]-- > 0)
+        if (Input.IsActionJustPressed("move_confirm") && _ammoCount[(int)_weapon.Name] > 0)
         {
             ProcessSpecialMove();
+            _ammoCount[(int)_weapon.Name]--;
             UpdateHud();
         }
     }
