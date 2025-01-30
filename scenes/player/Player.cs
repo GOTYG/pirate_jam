@@ -35,7 +35,7 @@ public partial class Player : Area2D
         var curTile = _tileMap.GetCellTileData(_GetCurrentTilePosition());
         if (curTile.GetCustomData("type").AsString() == "door")
         {
-            EmitSignal(SignalName.NextLevel, GetParent().SceneFilePath);
+            EmitSignal(SignalName.NextLevel);
         }
 
         if (curTile.GetCustomData("type").AsString() == "pit")
