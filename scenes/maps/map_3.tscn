@@ -1,80 +1,42 @@
-[gd_scene load_steps=7 format=4 uid="uid://bl3hcre28dal2"]
+[gd_scene load_steps=8 format=4 uid="uid://bl3hcre28dal2"]
 
-[ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_fhrpx"]
-[ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="2_cse16"]
-[ext_resource type="PackedScene" uid="uid://cxn0rpgsso3ui" path="res://obstacles.tscn" id="3_bcxok"]
-[ext_resource type="PackedScene" uid="uid://di7p6vqn5xxc0" path="res://bridge.tscn" id="4_c8fgx"]
-[ext_resource type="PackedScene" uid="uid://s5bysbi848gh" path="res://button.tscn" id="5_an7fk"]
-[ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="7_mkdjg"]
+[ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_acsen"]
+[ext_resource type="PackedScene" uid="uid://cxn0rpgsso3ui" path="res://obstacles.tscn" id="2_8mg10"]
+[ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="2_eosdw"]
+[ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="3_fsjxr"]
+[ext_resource type="PackedScene" uid="uid://08ylpklbdwfi" path="res://bull.tscn" id="4_dvo4p"]
+[ext_resource type="PackedScene" uid="uid://s5bysbi848gh" path="res://button.tscn" id="5_1aodm"]
+[ext_resource type="PackedScene" uid="uid://di7p6vqn5xxc0" path="res://bridge.tscn" id="6_u0hh8"]
 
-[node name="Map_2" type="Node2D"]
-script = ExtResource("1_fhrpx")
+[node name="Map_1" type="Node2D"]
+script = ExtResource("1_acsen")
 
 [node name="Map" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAcAAAACAAIAAAAKAAYAAAACAAEAAAAKAAUAAAACAAEAAAAKAAQAAAACAAEAAAAKAAMAAAACAAEAAAAKAAIAAAACAAEAAAAKAAEAAAACAAEAAAAJAAcAAAABAAIAAAAIAAcAAAABAAIAAAAHAAcAAAABAAIAAAAGAAcAAAABAAIAAAAFAAcAAAABAAIAAAAEAAcAAAABAAIAAAADAAcAAAABAAIAAAACAAcAAAABAAIAAAABAAcAAAABAAIAAAAAAAYAAAAAAAEAAAAAAAUAAAAAAAEAAAAAAAQAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAcAAAAAAAIAAAAKAAAAAAACAAAAAAABAAEAAAAEAAIAAAACAAEAAAAEAAIAAAACAAIAAAAEAAIAAAADAAIAAAAEAAIAAAAEAAMAAAAEAAIAAAAFAAMAAAACAAMAAAAFAAQAAAADAAIAAAAGAAQAAAADAAIAAAAHAAQAAAAEAAIAAAAHAAUAAAAEAAIAAAAIAAUAAAAEAAIAAAAIAAYAAAAEAAIAAAAJAAYAAAAEAAIAAAAJAAUAAAAEAAIAAAAJAAQAAAAEAAIAAAAJAAMAAAAEAAIAAAAJAAIAAAAEAAIAAAAJAAEAAAAEAAIAAAAIAAEAAAAEAAIAAAAHAAEAAAAEAAIAAAAGAAEAAAAEAAIAAAAFAAEAAAACAAMAAAAEAAEAAAAEAAIAAAADAAEAAAAEAAIAAAAEAAIAAAAEAAIAAAAFAAIAAAACAAMAAAAGAAIAAAAEAAIAAAAHAAIAAAAEAAIAAAAIAAMAAAAEAAIAAAAIAAQAAAAEAAIAAAAIAAIAAAAEAAIAAAAHAAMAAAAEAAIAAAAGAAMAAAAEAAIAAAAEAAQAAAADAAIAAAAFAAUAAAACAAMAAAAGAAUAAAAEAAIAAAAHAAYAAAAEAAIAAAAGAAYAAAAEAAIAAAAFAAYAAAACAAMAAAAEAAYAAAAEAAIAAAADAAYAAAACAAMAAAACAAYAAAAEAAIAAAABAAYAAAABAAMAAAABAAUAAAAEAAIAAAABAAQAAAADAAIAAAABAAMAAAAEAAIAAAABAAIAAAAEAAIAAAACAAMAAAAEAAIAAAACAAQAAAADAAIAAAACAAUAAAAEAAIAAAADAAMAAAAEAAIAAAADAAQAAAADAAIAAAADAAUAAAACAAMAAAAEAAUAAAAEAAIAAAA=")
-tile_set = ExtResource("2_cse16")
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAQAAAAAAAEAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAEAAAACAAEAAAAJAAIAAAACAAEAAAAJAAMAAAACAAEAAAAJAAQAAAACAAEAAAAIAAUAAAADAAIAAAAHAAUAAAADAAIAAAAGAAUAAAADAAIAAAAFAAUAAAADAAIAAAAEAAUAAAADAAIAAAADAAUAAAABAAEAAAACAAUAAAADAAIAAAABAAUAAAADAAIAAAAJAAAAAAACAAAAAAAAAAUAAAAAAAEAAAAJAAUAAAACAAEAAAABAAEAAAAEAAIAAAACAAIAAAABAAEAAAACAAMAAAABAAEAAAADAAMAAAABAAEAAAAEAAMAAAAEAAIAAAAEAAQAAAAEAAIAAAAFAAQAAAAEAAIAAAAGAAQAAAAEAAIAAAAHAAQAAAAEAAIAAAAIAAQAAAAEAAIAAAAIAAMAAAACAAMAAAAIAAIAAAAEAAIAAAAIAAEAAAADAAIAAAAHAAEAAAAEAAIAAAAGAAEAAAAEAAIAAAAFAAEAAAABAAEAAAAEAAEAAAAEAAIAAAADAAEAAAAEAAIAAAACAAEAAAADAAIAAAABAAIAAAAEAAIAAAABAAMAAAAEAAIAAAABAAQAAAAEAAIAAAACAAQAAAACAAMAAAADAAQAAAACAAMAAAAFAAMAAAADAAIAAAAGAAMAAAADAAIAAAAHAAMAAAADAAIAAAAHAAIAAAAEAAIAAAAGAAIAAAADAAIAAAAFAAIAAAADAAIAAAAEAAIAAAADAAIAAAADAAIAAAACAAMAAAABAAYAAAAEAAIAAAACAAYAAAAEAAIAAAADAAYAAAAEAAIAAAAEAAYAAAAEAAIAAAAFAAYAAAAEAAIAAAAGAAYAAAAEAAIAAAAHAAYAAAAEAAIAAAAIAAYAAAABAAMAAAAJAAYAAAACAAEAAAAIAAcAAAABAAIAAAAHAAcAAAABAAIAAAAGAAcAAAABAAIAAAAFAAcAAAABAAIAAAAEAAcAAAABAAIAAAADAAcAAAABAAIAAAACAAcAAAABAAIAAAABAAcAAAABAAIAAAAAAAYAAAAAAAEAAAAAAAcAAAAAAAIAAAAJAAcAAAACAAIAAAA=")
+tile_set = ExtResource("2_eosdw")
 
-[node name="StartMarker" type="Marker2D" parent="."]
-position = Vector2(79, 207)
+[node name="Obstacles" parent="." instance=ExtResource("2_8mg10")]
 
-[node name="Obstacles" parent="." instance=ExtResource("3_bcxok")]
-
-[node name="Bridge" parent="Obstacles" instance=ExtResource("4_c8fgx")]
-position = Vector2(176, 79)
-rotation = -3.14159
-scale = Vector2(1, -1)
-
-[node name="Bridge2" parent="Obstacles" instance=ExtResource("4_c8fgx")]
-position = Vector2(176, 49)
-rotation = -3.14159
-scale = Vector2(1, -1)
-
-[node name="Bridge3" parent="Obstacles" instance=ExtResource("4_c8fgx")]
-position = Vector2(176, 111)
-rotation = -3.14159
-scale = Vector2(1, -1)
-
-[node name="Bridge4" parent="Obstacles" instance=ExtResource("4_c8fgx")]
-position = Vector2(176, 176)
-rotation = -3.14159
-scale = Vector2(1, -1)
-IsUp = false
+[node name="Bridge" parent="Obstacles" instance=ExtResource("6_u0hh8")]
+position = Vector2(357, 89)
+scale = Vector2(-1, 1)
 Id = 1
 
-[node name="Bridge6" parent="Obstacles" instance=ExtResource("4_c8fgx")]
-position = Vector2(112, 177)
-rotation = -3.14159
-scale = Vector2(1, -1)
-Id = 2
-
-[node name="Bridge7" parent="Obstacles" instance=ExtResource("4_c8fgx")]
-position = Vector2(112, 208)
-rotation = -3.14159
-scale = Vector2(1, -1)
-Id = 2
-
-[node name="Bridge5" parent="Obstacles" instance=ExtResource("4_c8fgx")]
-position = Vector2(176, 208)
-rotation = -3.14159
-scale = Vector2(1, -1)
-IsUp = false
-Id = 1
-
-[node name="Button" parent="Obstacles" instance=ExtResource("5_an7fk")]
-position = Vector2(110, 78)
-
-[node name="Button2" parent="Obstacles" instance=ExtResource("5_an7fk")]
-position = Vector2(271, 175)
+[node name="Button" parent="Obstacles" instance=ExtResource("5_1aodm")]
+position = Vector2(359, 129)
 BridgeId = 1
 
-[node name="Button3" parent="Obstacles" instance=ExtResource("5_an7fk")]
-position = Vector2(271, 207)
-BridgeId = 2
+[node name="Bull" parent="Obstacles" instance=ExtResource("4_dvo4p")]
+position = Vector2(110, 46)
 
-[node name="Player" parent="." instance=ExtResource("7_mkdjg")]
-z_index = 2
-position = Vector2(-30, 48)
+[node name="StartMarker" type="Marker2D" parent="."]
+position = Vector2(46, 49)
+
+[node name="Player" parent="." instance=ExtResource("3_fsjxr")]
+z_index = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(200, 152)
-zoom = Vector2(2.5, 2.5)
+position = Vector2(167, 125)
+zoom = Vector2(3, 3)
+
+[connection signal="NextLevel" from="Player" to="." method="NextLevel"]
