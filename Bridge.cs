@@ -11,7 +11,7 @@ public partial class Bridge : AnimatedSprite2D, IInteractable
 
     [Export] public int Id { get; set; }
 
-    
+
     public void ToggleBridge()
     {
         if (IsUp) GoDown();
@@ -35,7 +35,8 @@ public partial class Bridge : AnimatedSprite2D, IInteractable
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        GoUp();
+        if (IsUp) GoUp();
+        else GoDown();
     }
 
 

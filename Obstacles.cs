@@ -29,12 +29,12 @@ public partial class Obstacles : Node
         }
     }
 
-    public List<Bull> GetInteractableBulls()
+    public List<Bull> GetInteractableBulls(bool status = true)
     {
-        return _bulls.Where(bull => bull.IsInteractable).ToList();
+        return _bulls.Where(bull => bull.IsInteractable == status).ToList();
     }
 
-    public List<Bridge> GetBridges(bool isUp=true)
+    public List<Bridge> GetBridges(bool isUp = true)
     {
         return _bridges.Where(bridge => bridge.IsInteractable == isUp).ToList();
     }
@@ -60,7 +60,7 @@ public partial class Obstacles : Node
     }
 
 
-    public Bridge? IsHitBridge(Vector2I tile, TileMapLayer tileMap,bool isUp=true)
+    public Bridge? IsHitBridge(Vector2I tile, TileMapLayer tileMap, bool isUp = true)
     {
         var bridges = GetBridges(isUp);
 
@@ -75,9 +75,9 @@ public partial class Obstacles : Node
         return null;
     }
 
-    public Bull? IsHitBull(Vector2I tile, TileMapLayer tileMap)
+    public Bull? IsHitBull(Vector2I tile, TileMapLayer tileMap, bool isInteractable = true)
     {
-        var bulls = GetInteractableBulls();
+        var bulls = GetInteractableBulls(isInteractable);
 
         foreach (var obstacle in bulls)
         {

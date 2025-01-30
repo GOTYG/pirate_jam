@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://01fidtav06x0"]
+
+[ext_resource type="Texture2D" uid="uid://dwc7g58h1w6sd" path="res://art/menu_frame.png" id="1_43ri7"]
+[ext_resource type="Texture2D" uid="uid://damtktdjsffee" path="res://art/animations/bow_shooting_animation_Shoot_0.png" id="2_auwot"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -48.0
+offset_bottom = 48.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("1_43ri7")
+
+[node name="TextureButton" type="TextureButton" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_right = -76.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture_normal = ExtResource("2_auwot")
+ignore_texture_size = true
+
+[node name="Label" type="Label" parent="TextureRect/TextureButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 16.5
+offset_right = 20.0
+offset_bottom = 40.5
+scale = Vector2(0.4, 0.4)
+text = "2x"

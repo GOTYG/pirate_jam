@@ -27,17 +27,17 @@ position = Vector2(112, 113)
 Id = 1
 
 [node name="Button" parent="Obstacles" instance=ExtResource("5_1aodm")]
-position = Vector2(46, 142)
+position = Vector2(45, 142)
 BridgeId = 1
 
 [node name="Bull" parent="Obstacles" instance=ExtResource("4_dvo4p")]
-position = Vector2(144, 48)
+position = Vector2(46, 79)
 
 [node name="Bull2" parent="Obstacles" instance=ExtResource("4_dvo4p")]
-position = Vector2(46, 110)
+position = Vector2(111, 47)
 
 [node name="StartMarker" type="Marker2D" parent="."]
-position = Vector2(48, 48)
+position = Vector2(49, 110)
 
 [node name="Player" parent="." instance=ExtResource("3_fsjxr")]
 z_index = 1
