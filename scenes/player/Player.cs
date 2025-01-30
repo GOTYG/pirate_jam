@@ -125,19 +125,19 @@ public partial class Player : Area2D
 
     private void _ProcessNoSpecialMove()
     {
-        if (Input.IsActionJustPressed("move_down"))
+        if (Input.IsActionPressed("move_down"))
         {
             MovePlayer(Vector2I.Down);
         }
-        else if (Input.IsActionJustPressed("move_up"))
+        else if (Input.IsActionPressed("move_up"))
         {
             MovePlayer(Vector2I.Up);
         }
-        else if (Input.IsActionJustPressed("move_left"))
+        else if (Input.IsActionPressed("move_left"))
         {
             MovePlayer(Vector2I.Left);
         }
-        else if (Input.IsActionJustPressed("move_right"))
+        else if (Input.IsActionPressed("move_right"))
         {
             MovePlayer(Vector2I.Right);
         }
@@ -209,12 +209,13 @@ public partial class Player : Area2D
         // We don't care about the result, we just press it if its there 
         _obstacles.IsHitButton(targetTile, _tileMap);
         var bridge = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: false);
+        var bridgeInPath = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: true);
+
         var bullInTheWay = _obstacles.IsHitBull(targetTile, _tileMap);
         var bullInPit = _obstacles.IsHitBull(targetTile, _tileMap, false);
         var tileType = targetTileData.GetCustomData("type").AsString();
-        var walkable = tileType == "floor" || tileType == "door" || bridge != null;
-        var filledPit = tileType == "pit" && bullInPit != null && _tileMap.LocalToMap(bullInPit.Position) == targetTile;
-
+        var walkable = (tileType == "floor" || tileType == "door") && bridgeInPath == null;
+        var filledPit = tileType == "pit" && (bullInPit != null || bridge != null);
         return walkable && bullInTheWay == null || filledPit
             ? targetTile
             : _GetCurrentTilePosition();
