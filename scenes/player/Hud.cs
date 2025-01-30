@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Globalization;
 using Godot.Collections;
 using PirateJam.scenes.player;
 
@@ -23,8 +24,8 @@ public partial class Hud : CanvasLayer
 
 	public void UpdateAmmoCounts(Dictionary<int, int> ammoCounts)
 	{
-		_bowCounts.Text = ammoCounts[(int)WeaponType.Bow].ToString();
-		_whipCounts.Text = ammoCounts[(int)WeaponType.Whip].ToString();
+		_bowCounts.Text = ammoCounts[(int)WeaponType.Bow].ToString(CultureInfo.InvariantCulture);
+		_whipCounts.Text = ammoCounts[(int)WeaponType.Whip].ToString(CultureInfo.InvariantCulture);
 	}
 	
 }
