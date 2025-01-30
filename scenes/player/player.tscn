@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bixeqh07t6dnb"]
+[gd_scene load_steps=14 format=3 uid="uid://bixeqh07t6dnb"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_lltbs"]
 [ext_resource type="Texture2D" uid="uid://damtktdjsffee" path="res://art/animations/bow_shooting_animation_Shoot_0.png" id="3_yfscs"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bo38i0jpkao36" path="res://art/animations/bow_shooting_animation_Shoot_5.png" id="8_wy1x0"]
 [ext_resource type="Texture2D" uid="uid://pgo10hax72q0" path="res://art/arrow_selected.png" id="9_4sbsi"]
 [ext_resource type="Texture2D" uid="uid://c8dkk7s0vgjf7" path="res://art/whip.png" id="9_dgiam"]
+[ext_resource type="Texture2D" uid="uid://beb2520fwmfny" path="res://art/omni-arrow.png" id="11_5g70m"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r4t57"]
 animations = [{
@@ -79,3 +80,8 @@ shape = SubResource("CapsuleShape2D_qh3rb")
 visible = false
 top_level = true
 texture = ExtResource("9_4sbsi")
+
+[node name="Omni" type="Sprite2D" parent="."]
+visible = false
+top_level = true
+texture = ExtResource("11_5g70m")

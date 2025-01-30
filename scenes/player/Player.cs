@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using Godot;
-using PirateJam.scenes.maps;
 
 namespace PirateJam.scenes.player;
 
@@ -28,7 +26,7 @@ public partial class Player : Area2D
 
         if (GlobalPosition != _globalTargetPosition)
         {
-            GlobalPosition = GlobalPosition.MoveToward(_globalTargetPosition, _weapon.WeaponSpeed); 
+            GlobalPosition = GlobalPosition.MoveToward(_globalTargetPosition, _weapon.WeaponSpeed);
             return;
         }
 
@@ -42,7 +40,7 @@ public partial class Player : Area2D
         {
             var bridge = _obstacles.IsHitBridge(_GetCurrentTilePosition(), _tileMap, isUp: false);
             var bullInPit = _obstacles.IsHitBull(_GetCurrentTilePosition(), _tileMap, false);
-            if(bridge ==null && bullInPit == null) GD.Print("die");
+            if (bridge == null && bullInPit == null) GD.Print("die");
         }
 
 
@@ -52,8 +50,7 @@ public partial class Player : Area2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _weapon = new Sword();
-        _directionSprite = GetNode<Sprite2D>("Arrow");
+        _weapon = new Wizard();
         _spriteAnimation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _spriteAnimation.Play(_weapon.Animations["idle"]);
         _tileMap = GetParent().GetNode<TileMapLayer>("Map");
@@ -68,24 +65,65 @@ public partial class Player : Area2D
 
         if (Input.IsActionJustPressed("sword"))
         {
-            _weapon = new Sword();
+            _weapon = new Wizard();
             _spriteAnimation.Play(_weapon.Animations["idle"]);
+            _directionSprite.Visible = false;
         }
 
         if (Input.IsActionJustPressed("bow"))
         {
             _weapon = new Bow();
+            if (_directionSprite != null) _directionSprite.Visible = false;
+            _directionSprite = GetNode<Sprite2D>("Arrow");
             _spriteAnimation.Play(_weapon.Animations["idle"]);
         }
 
         if (Input.IsActionJustPressed("whip"))
         {
             _weapon = new Whip();
+            _directionSprite = GetNode<Sprite2D>("Omni");
+            _directionSprite.Position = Position;
+            _directionSprite.Visible = true;
             _spriteAnimation.Play(_weapon.Animations["idle"]);
             Rotation = 0;
         }
 
+        switch (_weapon.SpecialMoveCategoryMode)
+        {
+            case SpecialMoveCategory.None:
+                _ProcessNoSpecialMove();
+                break;
+            case SpecialMoveCategory.Targeted:
+                _ProcessTargetedSpecialMove();
+                break;
+            case SpecialMoveCategory.OmniDirectional:
+                _ProcessOmnidirectionalSpecialMove();
+                break;
+        }
+    }
 
+    private void _ProcessNoSpecialMove()
+    {
+        if (Input.IsActionJustPressed("move_down"))
+        {
+            MovePlayer(Vector2I.Down);
+        }
+        else if (Input.IsActionJustPressed("move_up"))
+        {
+            MovePlayer(Vector2I.Up);
+        }
+        else if (Input.IsActionJustPressed("move_left"))
+        {
+            MovePlayer(Vector2I.Left);
+        }
+        else if (Input.IsActionJustPressed("move_right"))
+        {
+            MovePlayer(Vector2I.Right);
+        }
+    }
+
+    private void _ProcessTargetedSpecialMove()
+    {
         if (Input.IsActionJustPressed("move_down"))
         {
             SelectDirection(Vector2I.Down);
@@ -104,14 +142,16 @@ public partial class Player : Area2D
         }
         else if (Input.IsActionJustPressed("move_confirm"))
         {
-            if (_weapon.DirectionSpriteEnabled && !_directionSprite.Visible)
-            {
-                return;
-            }
-
-            ProcessSpecialMove();
-
+            _directionSprite.Visible = false;
             MovePlayer(_selectedDirection);
+        }
+    }
+
+    private void _ProcessOmnidirectionalSpecialMove()
+    {
+        if (Input.IsActionJustPressed("move_confirm"))
+        {
+            ProcessSpecialMove();
         }
     }
 
@@ -119,14 +159,11 @@ public partial class Player : Area2D
     {
         _selectedDirection = direction;
         _directionSprite.Position = direction;
-        if (_weapon.DirectionSpriteEnabled)
-        {
-            Rotation = Mathf.Atan2(direction.Y, direction.X);
-            _directionSprite.Rotation = Mathf.Atan2(direction.Y, direction.X);
-            _directionSprite.Visible = true;
-        }
+        Rotation = Mathf.Atan2(direction.Y, direction.X);
+        _directionSprite.Rotation = Mathf.Atan2(direction.Y, direction.X);
+        _directionSprite.Visible = true;
 
-        Vector2I currTile = _GetCurrentTilePosition();
+        var currTile = _GetCurrentTilePosition();
         _directionSprite.GlobalPosition = _tileMap.MapToLocal(currTile + direction);
     }
 
@@ -142,10 +179,10 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition() + direction;
         var targetTileData = _tileMap.GetCellTileData(targetTile);
 
-        //We don't care about the result, we just press it if its there 
+        // We don't care about the result, we just press it if its there 
         _obstacles.IsHitButton(targetTile, _tileMap);
         var bridge = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: false);
-        var bullInTheWay = _obstacles.IsHitBull(targetTile, _tileMap, true);
+        var bullInTheWay = _obstacles.IsHitBull(targetTile, _tileMap);
         var bullInPit = _obstacles.IsHitBull(targetTile, _tileMap, false);
         var tileType = targetTileData.GetCustomData("type").AsString();
         var walkable = tileType == "floor" || tileType == "door" || bridge != null;
@@ -188,7 +225,7 @@ public partial class Player : Area2D
     {
         switch (_weapon.Name)
         {
-            case WeaponType.Sword: return GetSwordTarget(direction);
+            case WeaponType.Wizard: return GetSwordTarget(direction);
             case WeaponType.Bow: return GetBowTarget(direction);
             case WeaponType.Whip:
             default:
@@ -199,7 +236,7 @@ public partial class Player : Area2D
     public void MovePlayer(Vector2I direction)
     {
         _isMoving = true;
-        _directionSprite.Visible = false;
+        Rotation = Mathf.Atan2(direction.Y, direction.X);
 
         var targetPosition = GetTargetPosition(direction);
 
@@ -213,8 +250,6 @@ public partial class Player : Area2D
         {
             case WeaponType.Whip:
                 EmitSignal(SignalName.Whip, Position);
-                break;
-            default:
                 break;
         }
     }

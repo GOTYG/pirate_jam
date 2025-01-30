@@ -3,21 +3,28 @@ using Godot;
 
 namespace PirateJam.scenes.player;
 
+public enum SpecialMoveCategory
+{
+    None,
+    Targeted,
+    OmniDirectional,
+}
+
 public abstract class PlayerWeapon
 {
     public abstract WeaponType Name { get; }
     public abstract Dictionary<string, StringName> Animations { get; }
 
-    public abstract bool DirectionSpriteEnabled { get; }
-    
+    public abstract SpecialMoveCategory SpecialMoveCategoryMode { get; }
+
     public abstract int WeaponSpeed { get; }
 }
 
-public class Sword : PlayerWeapon
+public class Wizard : PlayerWeapon
 {
-    public override WeaponType Name => WeaponType.Sword;
+    public override WeaponType Name => WeaponType.Wizard;
 
-    public override bool DirectionSpriteEnabled => true;
+    public override SpecialMoveCategory SpecialMoveCategoryMode => SpecialMoveCategory.None;
 
     public override int WeaponSpeed => 2;
 
@@ -30,9 +37,9 @@ public class Sword : PlayerWeapon
 public class Bow : PlayerWeapon
 {
     public override WeaponType Name => WeaponType.Bow;
-    
-    public override bool DirectionSpriteEnabled => true;
-    
+
+    public override SpecialMoveCategory SpecialMoveCategoryMode => SpecialMoveCategory.Targeted;
+
     public override int WeaponSpeed => 4;
 
 
@@ -46,11 +53,10 @@ public class Bow : PlayerWeapon
 public class Whip : PlayerWeapon
 {
     public override WeaponType Name => WeaponType.Whip;
-    
+
     public override int WeaponSpeed => 1;
 
-    
-    public override bool DirectionSpriteEnabled => false;
+    public override SpecialMoveCategory SpecialMoveCategoryMode => SpecialMoveCategory.OmniDirectional;
 
     public override Dictionary<string, StringName> Animations { get; } = new()
     {

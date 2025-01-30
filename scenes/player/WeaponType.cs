@@ -2,7 +2,7 @@
 
 public enum WeaponType
 {
-    Sword,
+    Wizard,
     Bow,
     Whip
 }
