@@ -28,23 +28,26 @@ public partial class Bull : Sprite2D, IInteractable
         {
             direction = Mathf.Sign(deltaY) == 1 ? Vector2I.Up : Vector2I.Down;
         }
+
         Rotation = Mathf.Atan2(direction.Y, direction.X);
 
 
         var targetTile = _CalculateMovement(direction, claimedPits);
         var targetTileData = _tileMap.GetCellTileData(targetTile);
         _globalTargetPosition = _tileMap.MapToLocal(targetTile);
-        
+
         if (targetTileData.GetCustomData("type").AsString() == "pit")
         {
-            IsInteractable = false;
+            var bull = _obstacles.GetBullWithStatus(targetTile, _tileMap, false);
+            if (bull == null) IsInteractable = false;
+
+
             return targetTile;
         }
-        
+
         return null;
     }
 
-        //TODO update rotation/mirror image
 
     private Vector2I _CalculateMovement(Vector2I direction, List<Vector2I> claimedPits)
     {
@@ -65,7 +68,7 @@ public partial class Bull : Sprite2D, IInteractable
             var bullClaimedIt = claimedPits.Contains(currentTile);
             var bridgeOverIt = _obstacles.GetBridgeWithStatus(currentTile, _tileMap, isUp: false) != null;
             var isInPit = isOverPit && !bullInIt && !bullClaimedIt && !bridgeOverIt;
-            
+
             _obstacles.IsHitButton(currentTile, _tileMap);
 
 
@@ -86,6 +89,14 @@ public partial class Bull : Sprite2D, IInteractable
             return;
         }
 
+        var curTile = _tileMap.GetCellTileData(_GetCurrentTilePosition());
+        if (curTile.GetCustomData("type").AsString() == "pit")
+        {
+            var bridge = _obstacles.GetBridgeWithStatus(_GetCurrentTilePosition(), _tileMap, isUp: false);
+            var bullInPit = _obstacles.GetBullWithStatus(_GetCurrentTilePosition(), _tileMap, false);
+            if (bridge == null && bullInPit != null && GetInstanceId() == bullInPit.GetInstanceId())
+                Scale = new Vector2(.8f, .8f);
+        }
 
         _isMoving = false;
     }

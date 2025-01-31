@@ -11,8 +11,11 @@ public partial class Button : AnimatedSprite2D, IInteractable
 	public int BridgeId { get; set; }
 
 
+
+
 	public void Press()
 	{
+		GetNode<AudioStreamPlayer>("ButtonClick").Play();
 		foreach (var bridge in _bridges)
 		{
 			if(BridgeId == bridge.Id)

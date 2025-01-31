@@ -1,24 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://s5bysbi848gh"]
+[gd_scene load_steps=6 format=3 uid="uid://s5bysbi848gh"]
 
 [ext_resource type="Texture2D" uid="uid://fp1rlgpd12xu" path="res://art/button.png" id="1_r3vus"]
 [ext_resource type="Texture2D" uid="uid://bej13jwqtrvec" path="res://art/button_pressed.png" id="2_x1rju"]
 [ext_resource type="Script" path="res://Button.cs" id="3_oebyh"]
+[ext_resource type="AudioStream" uid="uid://bm44lpvy2bxom" path="res://sounds/bridge_sound.mp3" id="4_j6jnw"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_amk7d"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_r3vus")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
 }, {
-"frames": [{
-"duration": 1.0,
+"duration": 2.5,
 "texture": ExtResource("2_x1rju")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_r3vus")
 }],
-"loop": true,
+"loop": false,
 "name": &"pressed",
 "speed": 5.0
 }]
@@ -26,4 +25,8 @@ animations = [{
 [node name="Button" type="AnimatedSprite2D"]
 position = Vector2(238, 46)
 sprite_frames = SubResource("SpriteFrames_amk7d")
+animation = &"pressed"
 script = ExtResource("3_oebyh")
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_j6jnw")

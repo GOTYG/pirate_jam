@@ -48,7 +48,10 @@ public partial class Player : Area2D
         {
             var bridge = _obstacles.GetBridgeWithStatus(_GetCurrentTilePosition(), _tileMap, isUp: false);
             var bullInPit = _obstacles.GetBullWithStatus(_GetCurrentTilePosition(), _tileMap, false);
-            if (bridge == null && bullInPit == null) EmitSignal(SignalName.Death);
+            if (bridge == null && bullInPit == null)
+            {
+                EmitSignal(SignalName.Death);
+            }
         }
 
 
@@ -270,6 +273,7 @@ public partial class Player : Area2D
 
         if (bull != null)
         {
+            GetNode<AudioStreamPlayer>("Sounds/BullDeath").Play();
             bull.Hide();
             bull.IsInteractable = false;
         }

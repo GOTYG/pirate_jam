@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bixeqh07t6dnb"]
+[gd_scene load_steps=21 format=3 uid="uid://bixeqh07t6dnb"]
 
 [ext_resource type="Script" path="res://scenes/player/Player.cs" id="1_lltbs"]
 [ext_resource type="Texture2D" uid="uid://damtktdjsffee" path="res://art/animations/bow_shooting_animation_Shoot_0.png" id="3_yfscs"]
@@ -16,6 +16,8 @@
 [ext_resource type="AudioStream" uid="uid://btw2u2lfryoar" path="res://sounds/bow_sound.mp3" id="14_tuu2p"]
 [ext_resource type="AudioStream" uid="uid://c30awoyuffp8b" path="res://sounds/bull_sound.mp3" id="15_1t6op"]
 [ext_resource type="AudioStream" uid="uid://bhhaccira1rnv" path="res://sounds/whip_sound.mp3" id="16_1k43u"]
+[ext_resource type="AudioStream" uid="uid://bpcf1jgbur3dy" path="res://sounds/player_death.mp3" id="16_sx6h6"]
+[ext_resource type="AudioStream" uid="uid://cmnev87q632r8" path="res://sounds/bull_death.mp3" id="17_3vkvw"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r4t57"]
 animations = [{
@@ -151,5 +153,11 @@ stream = ExtResource("14_tuu2p")
 [node name="BullInteract" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("15_1t6op")
 
+[node name="PlayerDeath" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("16_sx6h6")
+
 [node name="WhipSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("16_1k43u")
+
+[node name="BullDeath" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("17_3vkvw")
