@@ -28,6 +28,8 @@ public partial class Bull : Sprite2D, IInteractable
         {
             direction = Mathf.Sign(deltaY) == 1 ? Vector2I.Up : Vector2I.Down;
         }
+        Rotation = Mathf.Atan2(direction.Y, direction.X);
+
 
         var targetTile = _CalculateMovement(direction, claimedPits);
         var targetTileData = _tileMap.GetCellTileData(targetTile);
@@ -42,6 +44,8 @@ public partial class Bull : Sprite2D, IInteractable
         return null;
     }
 
+        //TODO update rotation/mirror image
+
     private Vector2I _CalculateMovement(Vector2I direction, List<Vector2I> claimedPits)
     {
         var currentTile = _GetCurrentTilePosition();
@@ -55,11 +59,15 @@ public partial class Bull : Sprite2D, IInteractable
             var bridgeInPath = _obstacles.GetBridgeWithStatus(currentTile + direction, _tileMap, isUp: true);
             var wouldHitImpass = isNextToWall || (bullInPath != null) || (bridgeInPath != null);
 
+
             var isOverPit = curTileData.GetCustomData("type").AsString() == "pit";
             var bullInIt = _obstacles.GetBullWithStatus(currentTile, _tileMap, false) != null;
             var bullClaimedIt = claimedPits.Contains(currentTile);
             var bridgeOverIt = _obstacles.GetBridgeWithStatus(currentTile, _tileMap, isUp: false) != null;
             var isInPit = isOverPit && !bullInIt && !bullClaimedIt && !bridgeOverIt;
+            
+            _obstacles.IsHitButton(currentTile, _tileMap);
+
 
             if (wouldHitImpass || isInPit) break;
             currentTile += direction;

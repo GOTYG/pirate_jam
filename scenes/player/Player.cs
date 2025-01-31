@@ -12,7 +12,10 @@ public partial class Player : Area2D
     [Signal]
     public delegate void NextLevelEventHandler();
 
-    [Export] private Dictionary<int, int> _ammoCount;
+    [Signal]
+    public delegate void DeathEventHandler();
+
+    [Export] public Dictionary<int, int>? AmmoCount { get; set; }
 
     private PlayerWeapon _weapon;
     private Hud _hud;
@@ -23,12 +26,6 @@ public partial class Player : Area2D
     private Vector2I _selectedDirection;
     private Sprite2D _directionSprite;
     private Obstacles _obstacles;
-
-    public Dictionary<int, int> AmmoCount
-    {
-        get { return _ammoCount; }
-        set => _ammoCount = value;
-    }
 
 
     public override void _PhysicsProcess(double delta)
@@ -51,11 +48,12 @@ public partial class Player : Area2D
         {
             var bridge = _obstacles.GetBridgeWithStatus(_GetCurrentTilePosition(), _tileMap, isUp: false);
             var bullInPit = _obstacles.GetBullWithStatus(_GetCurrentTilePosition(), _tileMap, false);
-            if (bridge == null && bullInPit == null) GD.Print("die");
+            if (bridge == null && bullInPit == null) EmitSignal(SignalName.Death);
         }
 
 
         _isMoving = false;
+        ResetAfterSpecialMove();
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -68,12 +66,20 @@ public partial class Player : Area2D
         _spriteAnimation.Play(_weapon.Animations["idle"]);
         _tileMap = GetParent().GetNode<TileMapLayer>("Map");
         _obstacles = GetParent().GetNode<Obstacles>("Obstacles");
+
+        if (AmmoCount == null)
+        {
+            AmmoCount = new Dictionary<int, int>();
+            AmmoCount.Add(1, 2);
+            AmmoCount.Add(2, 2);
+        }
+
         UpdateHud();
     }
 
     private void UpdateHud()
     {
-        _hud.UpdateAmmoCounts(_ammoCount);
+        _hud.UpdateAmmoCounts(AmmoCount);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -100,7 +106,7 @@ public partial class Player : Area2D
         if (Input.IsActionJustPressed("whip"))
         {
             _weapon = new Whip();
-            _directionSprite.Visible = false;  // Fix bow direction sprite still showing
+            _directionSprite.Visible = false; // Fix bow direction sprite still showing
             _directionSprite = GetNode<Sprite2D>("Omni");
             _directionSprite.Position = Position;
             _directionSprite.Visible = true;
@@ -162,24 +168,33 @@ public partial class Player : Area2D
             SelectDirection(Vector2I.Right);
         }
         else if (Input.IsActionJustPressed("move_confirm")
-                 && _ammoCount[(int)_weapon.Name] > 0
+                 && AmmoCount[(int)_weapon.Name] > 0
                  && _selectedDirection != Vector2I.Zero)
         {
-            _ammoCount[(int)_weapon.Name]--;
-            _directionSprite.Visible = false;
+            GetNode<AudioStreamPlayer>("Sounds/BowShoot").Play();
+            AmmoCount[(int)_weapon.Name]--;
             MovePlayer(_selectedDirection);
-            UpdateHud();
         }
     }
 
     private void _ProcessOmnidirectionalSpecialMove()
     {
-        if (Input.IsActionJustPressed("move_confirm") && _ammoCount[(int)_weapon.Name] > 0)
+        if (Input.IsActionJustPressed("move_confirm") && AmmoCount[(int)_weapon.Name] > 0)
         {
+            GetNode<AudioStreamPlayer>("Sounds/WhipSound").Play();
             ProcessSpecialMove();
-            _ammoCount[(int)_weapon.Name]--;
-            UpdateHud();
+            AmmoCount[(int)_weapon.Name]--;
+            ResetAfterSpecialMove();
         }
+    }
+
+    public void ResetAfterSpecialMove()
+    {
+        UpdateHud();
+        _weapon = new Wizard();
+        _directionSprite.Visible = false;
+        _spriteAnimation.Play(_weapon.Animations["idle"]);
+        _selectedDirection = Vector2I.Zero;
     }
 
     public void SelectDirection(Vector2I direction)
@@ -206,19 +221,32 @@ public partial class Player : Area2D
         var targetTile = _GetCurrentTilePosition() + direction;
         var targetTileData = _tileMap.GetCellTileData(targetTile);
 
-        // We don't care about the result, we just press it if its there 
-        _obstacles.IsHitButton(targetTile, _tileMap);
+
         var bridge = _obstacles.GetBridgeWithStatus(targetTile, _tileMap, isUp: false);
-        var bridgeInPath = _obstacles.IsHitBridge(targetTile, _tileMap, isUp: true);
+        var bridgeInPath = _obstacles.GetBridgeWithStatus(targetTile, _tileMap, isUp: true);
 
         var bullInTheWay = _obstacles.GetBullWithStatus(targetTile, _tileMap);
         var bullInPit = _obstacles.GetBullWithStatus(targetTile, _tileMap, false);
         var tileType = targetTileData.GetCustomData("type").AsString();
-        var walkable = (tileType == "floor" || tileType == "door") && bridgeInPath == null;
+        var walkableFloor = (tileType == "floor" || tileType == "door") && bridgeInPath == null;
         var filledPit = tileType == "pit" && (bullInPit != null || bridge != null);
-        return walkable && bullInTheWay == null || filledPit
-            ? targetTile
-            : _GetCurrentTilePosition();
+
+        if (bullInTheWay != null || (bullInPit != null && tileType == "pit"))
+        {
+            var bullSound = GetNode<AudioStreamPlayer>("Sounds/BullInteract");
+            if (!bullSound.Playing) bullSound.Play();
+        }
+
+        var walkable = walkableFloor && bullInTheWay == null || filledPit;
+
+        if (walkable)
+        {
+            // We don't care about the result, we just press it if its there 
+            _obstacles.IsHitButton(targetTile, _tileMap);
+            return targetTile;
+        }
+
+        return _GetCurrentTilePosition();
     }
 
 

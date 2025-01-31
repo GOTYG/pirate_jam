@@ -29,11 +29,15 @@ public partial class Main : Node
 
         // Get the player in the newly activated level and install the signal handler
         // for the NextLevel signal.
-        GetNode<Player>($"Level{index}/Player").NextLevel += () =>
+        
+        var player = GetNode<Player>($"Level{index}/Player");
+        player.NextLevel += () =>
         {
             _DeactivateLevel(CurrentScene);
             _SetLevel(++CurrentScene);
         };
+
+        player.Death += _ResetLevel;
     }
 
     // Reset the current level.

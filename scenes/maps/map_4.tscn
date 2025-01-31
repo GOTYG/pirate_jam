@@ -68,6 +68,10 @@ position = Vector2(206, 206)
 [node name="Player" parent="." instance=ExtResource("7_2braq")]
 z_index = 2
 position = Vector2(-30, 48)
+AmmoCount = {
+1: 0,
+2: 2
+}
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(200, 152)
