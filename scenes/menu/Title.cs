@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+namespace PirateJam.scenes.menu;
+
 public partial class Title : CanvasLayer
 {
 	// Called when the node enters the scene tree for the first time.
