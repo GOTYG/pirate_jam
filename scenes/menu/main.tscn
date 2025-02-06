@@ -18,10 +18,10 @@ color = Color(0.0627451, 0.121569, 0.145098, 1)
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="LevelHint" type="NinePatchRect" parent="HUD"]
-offset_left = 116.0
-offset_top = 699.0
-offset_right = 309.0
-offset_bottom = 739.0
+offset_left = 65.0
+offset_top = -3.0
+offset_right = 258.0
+offset_bottom = 37.0
 size_flags_horizontal = 6
 size_flags_vertical = 6
 metadata/_edit_group_ = true

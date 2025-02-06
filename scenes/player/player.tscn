@@ -73,6 +73,7 @@ animations = [{
 radius = 2.0
 
 [node name="Player" type="Area2D"]
+z_index = 2
 script = ExtResource("1_lltbs")
 metadata/_edit_group_ = true
 

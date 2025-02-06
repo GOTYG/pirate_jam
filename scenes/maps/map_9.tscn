@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=4 uid="uid://cuqcx51tj78mc"]
+
+[ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_yeq1s"]
+[ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="2_ixhah"]
+[ext_resource type="PackedScene" uid="uid://cxn0rpgsso3ui" path="res://obstacles.tscn" id="3_lr2o2"]
+[ext_resource type="PackedScene" uid="uid://s5bysbi848gh" path="res://button.tscn" id="4_lmsp5"]
+[ext_resource type="PackedScene" uid="uid://08ylpklbdwfi" path="res://bull.tscn" id="5_im0ih"]
+[ext_resource type="PackedScene" uid="uid://di7p6vqn5xxc0" path="res://bridge.tscn" id="6_nipiy"]
+[ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="7_pdfbs"]
+
+[node name="Map" type="Node2D"]
+script = ExtResource("1_yeq1s")
+
+[node name="Map" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAcAAAACAAIAAAAKAAYAAAACAAEAAAAKAAUAAAACAAEAAAAKAAQAAAACAAEAAAAKAAMAAAACAAEAAAAKAAIAAAACAAEAAAAKAAEAAAACAAEAAAAJAAcAAAABAAIAAAAIAAcAAAABAAIAAAAHAAcAAAABAAIAAAAGAAcAAAABAAIAAAAFAAcAAAABAAIAAAAEAAcAAAABAAIAAAADAAcAAAABAAIAAAACAAcAAAABAAIAAAABAAcAAAABAAIAAAAAAAYAAAAAAAEAAAAAAAUAAAAAAAEAAAAAAAQAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAcAAAAAAAIAAAAKAAAAAAACAAAAAAABAAEAAAAEAAIAAAACAAEAAAADAAIAAAACAAIAAAABAAEAAAADAAIAAAAEAAIAAAAEAAMAAAADAAIAAAAFAAMAAAAEAAIAAAAFAAQAAAACAAMAAAAGAAQAAAAEAAIAAAAHAAUAAAABAAEAAAAIAAUAAAACAAMAAAAIAAYAAAACAAMAAAAJAAYAAAAEAAIAAAAJAAUAAAADAAIAAAAJAAQAAAABAAMAAAAJAAMAAAADAAIAAAAJAAIAAAAEAAIAAAAJAAEAAAAEAAIAAAAIAAEAAAAEAAIAAAAHAAEAAAACAAMAAAAGAAEAAAAEAAIAAAAFAAEAAAABAAEAAAAEAAEAAAAEAAIAAAAEAAIAAAAEAAIAAAAFAAIAAAACAAMAAAAGAAIAAAAEAAIAAAAHAAIAAAABAAEAAAAIAAMAAAADAAIAAAAIAAQAAAACAAMAAAAIAAIAAAAEAAIAAAAHAAMAAAAEAAIAAAAGAAMAAAABAAEAAAAEAAQAAAAEAAIAAAAFAAUAAAABAAEAAAAGAAUAAAACAAMAAAAHAAYAAAACAAMAAAAGAAYAAAAEAAIAAAAFAAYAAAAEAAIAAAAEAAYAAAADAAMAAAADAAYAAAAEAAIAAAACAAYAAAADAAIAAAABAAYAAAAEAAIAAAABAAUAAAAEAAIAAAABAAQAAAABAAEAAAABAAMAAAAEAAIAAAABAAIAAAAEAAIAAAACAAMAAAACAAMAAAACAAQAAAAEAAIAAAACAAUAAAACAAMAAAADAAMAAAAEAAIAAAADAAQAAAACAAMAAAADAAUAAAACAAMAAAAEAAUAAAAEAAIAAAAHAAQAAAAEAAIAAAADAAEAAAAEAAIAAAA=")
+tile_set = ExtResource("2_ixhah")
+
+[node name="StartMarker" type="Marker2D" parent="."]
+position = Vector2(48, 48)
+
+[node name="Obstacles" parent="." instance=ExtResource("3_lr2o2")]
+
+[node name="Button" parent="Obstacles" instance=ExtResource("4_lmsp5")]
+position = Vector2(303, 46)
+
+[node name="Button2" parent="Obstacles" instance=ExtResource("4_lmsp5")]
+position = Vector2(304, 207)
+BridgeId = 1
+
+[node name="Bull" parent="Obstacles" instance=ExtResource("5_im0ih")]
+position = Vector2(266, 47)
+
+[node name="Bull7" parent="Obstacles" instance=ExtResource("5_im0ih")]
+position = Vector2(110, 206)
+
+[node name="Bull4" parent="Obstacles" instance=ExtResource("5_im0ih")]
+position = Vector2(207, 143)
+
+[node name="Bull5" parent="Obstacles" instance=ExtResource("5_im0ih")]
+position = Vector2(176, 207)
+
+[node name="Bull6" parent="Obstacles" instance=ExtResource("5_im0ih")]
+position = Vector2(143, 143)
+
+[node name="Bull2" parent="Obstacles" instance=ExtResource("5_im0ih")]
+position = Vector2(205, 207)
+
+[node name="Bull3" parent="Obstacles" instance=ExtResource("5_im0ih")]
+position = Vector2(47, 111)
+
+[node name="Bridge" parent="Obstacles" instance=ExtResource("6_nipiy")]
+position = Vector2(272, 143)
+IsUp = false
+
+[node name="Bridge2" parent="Obstacles" instance=ExtResource("6_nipiy")]
+position = Vector2(239, 143)
+Id = 1
+
+[node name="Bridge3" parent="Obstacles" instance=ExtResource("6_nipiy")]
+position = Vector2(143, 206)
+IsUp = false
+
+[node name="Player" parent="." instance=ExtResource("7_pdfbs")]
+z_index = 2
+position = Vector2(-30, 48)
+AmmoCount = {
+1: 2,
+2: 3
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(200, 152)
+zoom = Vector2(2.5, 2.5)

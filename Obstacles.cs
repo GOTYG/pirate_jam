@@ -32,8 +32,23 @@ public partial class Obstacles : Node
     public void OnPlayerWhip(Vector2I whipPosition)
     {
         var claimedPits = new List<Vector2I>();
-        // TODO: Sort bulls by distance from whip.
-        foreach (var bull in GetInteractableBulls())
+        var bulls = GetInteractableBulls();
+        bulls.Sort(delegate(Bull a, Bull b)
+        {
+            var aDeltaX = whipPosition.X - a.Position.X;
+            var aDeltaY = whipPosition.Y - a.Position.Y;
+            
+            var bDeltaX = whipPosition.X - b.Position.X;
+            var bDeltaY = whipPosition.Y - b.Position.Y;
+            
+            var aHyp = Mathf.Pow(aDeltaX, 2) + Mathf.Pow(aDeltaY, 2);
+            var bHyp = Mathf.Pow(bDeltaX, 2) + Mathf.Pow(bDeltaY, 2);
+
+            if (aHyp > bHyp) return -1;
+            return 1;
+        });
+  
+        foreach (var bull in bulls )
         {
             var maybeClaimed = bull.MoveDueToWhip(whipPosition, claimedPits);
             if (maybeClaimed is { } claimed) claimedPits.Add(claimed);
@@ -55,7 +70,7 @@ public partial class Obstacles : Node
         return _buttons.Where(button => button.IsInteractable).ToList();
     }
 
-    public Button? IsHitButton(Vector2I tile, TileMapLayer tileMap)
+    public void IsHitButton(Vector2I tile, TileMapLayer tileMap)
     {
         var buttons = GetInteractableButtons();
         foreach (var button in buttons)
@@ -63,11 +78,11 @@ public partial class Obstacles : Node
             if (tile == tileMap.LocalToMap(button.Position))
             {
                 button.Press();
-                return button;
+                
             }
         }
 
-        return null;
+
     }
 
 

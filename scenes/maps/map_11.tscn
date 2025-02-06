@@ -1,0 +1,115 @@
+[gd_scene load_steps=7 format=4 uid="uid://dlt5cw7s3afly"]
+
+[ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_3klnf"]
+[ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="2_eca6b"]
+[ext_resource type="PackedScene" uid="uid://cxn0rpgsso3ui" path="res://obstacles.tscn" id="3_af0yu"]
+[ext_resource type="PackedScene" uid="uid://08ylpklbdwfi" path="res://bull.tscn" id="4_j0rjs"]
+[ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="6_cfml1"]
+[ext_resource type="FontFile" uid="uid://cifqecryg7771" path="res://art/fonts/Macondo-Regular.ttf" id="6_n6srs"]
+
+[node name="Map" type="Node2D"]
+script = ExtResource("1_3klnf")
+
+[node name="Map" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAcAAAAEAAIAAAAKAAYAAAAEAAIAAAAKAAUAAAAEAAIAAAAKAAQAAAAEAAIAAAAKAAMAAAAEAAIAAAAKAAIAAAAEAAIAAAAKAAEAAAAEAAIAAAAJAAcAAAAEAAIAAAAIAAcAAAAEAAIAAAAHAAcAAAACAAMAAAAGAAcAAAACAAMAAAAFAAcAAAACAAMAAAAEAAcAAAACAAMAAAADAAcAAAACAAMAAAACAAcAAAACAAMAAAABAAcAAAACAAMAAAAAAAYAAAAAAAEAAAAAAAUAAAAAAAEAAAAAAAQAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAcAAAAAAAEAAAAKAAAAAAABAAAAAAABAAEAAAAEAAIAAAACAAEAAAAEAAIAAAACAAIAAAAEAAIAAAADAAIAAAACAAMAAAAEAAMAAAAEAAIAAAAFAAMAAAACAAMAAAAFAAQAAAACAAMAAAAGAAQAAAAEAAIAAAAHAAQAAAACAAMAAAAHAAUAAAACAAMAAAAIAAUAAAAEAAIAAAAIAAYAAAAEAAIAAAAJAAYAAAAEAAIAAAAJAAUAAAAEAAIAAAAJAAQAAAAEAAIAAAAJAAMAAAAEAAIAAAAJAAIAAAAEAAIAAAAJAAEAAAAEAAIAAAAIAAEAAAAEAAIAAAAHAAEAAAACAAMAAAAGAAEAAAAEAAIAAAAFAAEAAAACAAMAAAAEAAEAAAAEAAIAAAADAAEAAAACAAMAAAAEAAIAAAAEAAIAAAAFAAIAAAACAAMAAAAGAAIAAAAEAAIAAAAHAAIAAAACAAMAAAAIAAMAAAAEAAIAAAAIAAQAAAAEAAIAAAAIAAIAAAAEAAIAAAAHAAMAAAACAAMAAAAGAAMAAAAEAAIAAAAEAAQAAAAEAAIAAAAFAAUAAAACAAMAAAAGAAUAAAAEAAIAAAAHAAYAAAACAAMAAAAGAAYAAAAEAAIAAAAFAAYAAAAEAAIAAAAEAAYAAAAEAAIAAAADAAYAAAAEAAIAAAACAAYAAAAEAAIAAAABAAYAAAAEAAIAAAABAAUAAAACAAMAAAABAAQAAAAEAAIAAAABAAMAAAACAAMAAAABAAIAAAAEAAIAAAACAAMAAAACAAMAAAACAAQAAAAEAAIAAAACAAUAAAACAAMAAAADAAMAAAACAAMAAAADAAQAAAAEAAIAAAADAAUAAAACAAMAAAAEAAUAAAACAAMAAAAHAAgAAAAEAAIAAAACAAgAAAAEAAIAAAAAAAgAAAAAAAEAAAABAAkAAAABAAIAAAACAAkAAAABAAIAAAADAAkAAAABAAIAAAAEAAkAAAABAAIAAAAFAAkAAAABAAIAAAAGAAkAAAABAAIAAAAHAAkAAAABAAIAAAAIAAkAAAABAAIAAAAJAAkAAAABAAIAAAAKAAkAAAABAAIAAAALAAkAAAABAAIAAAAMAAgAAAACAAEAAAAMAAcAAAACAAEAAAAMAAYAAAACAAEAAAAMAAUAAAACAAEAAAAMAAQAAAACAAEAAAAMAAMAAAACAAEAAAAMAAIAAAACAAEAAAAMAAEAAAACAAEAAAALAAAAAAABAAAAAAAMAAAAAAACAAAAAAAMAAkAAAACAAIAAAAAAAkAAAAAAAIAAAALAAgAAAAEAAIAAAALAAcAAAAEAAIAAAALAAYAAAAEAAIAAAALAAUAAAAEAAIAAAALAAQAAAAEAAIAAAALAAMAAAAEAAIAAAALAAIAAAAEAAIAAAALAAEAAAAEAAIAAAAKAAgAAAAEAAIAAAAJAAgAAAAEAAIAAAAIAAgAAAAEAAIAAAAGAAgAAAAEAAIAAAAFAAgAAAAEAAIAAAAEAAgAAAAEAAIAAAADAAgAAAAEAAIAAAABAAgAAAAEAAIAAAA=")
+tile_set = ExtResource("2_eca6b")
+
+[node name="StartMarker" type="Marker2D" parent="."]
+position = Vector2(48, 48)
+
+[node name="Obstacles" parent="." instance=ExtResource("3_af0yu")]
+
+[node name="Bull" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(79, 47)
+
+[node name="Bull2" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(77, 78)
+
+[node name="Bull3" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(43, 79)
+
+[node name="Bull4" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(47, 144)
+
+[node name="Bull5" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(78, 144)
+
+[node name="Bull6" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(109, 145)
+
+[node name="Bull7" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(140, 144)
+
+[node name="Bull8" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(142, 110)
+
+[node name="Bull9" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(142, 82)
+
+[node name="Bull10" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(141, 48)
+
+[node name="Bull11" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(202, 48)
+
+[node name="Bull12" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(207, 81)
+
+[node name="Bull13" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(209, 109)
+
+[node name="Bull14" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(209, 142)
+
+[node name="Bull15" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(209, 172)
+
+[node name="Bull16" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(209, 206)
+
+[node name="Bull17" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(174, 206)
+
+[node name="Bull18" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(141, 207)
+
+[node name="Bull19" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(108, 210)
+
+[node name="Bull20" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(80, 211)
+
+[node name="Bull21" parent="Obstacles" instance=ExtResource("4_j0rjs")]
+position = Vector2(49, 209)
+
+[node name="Player" parent="." instance=ExtResource("6_cfml1")]
+position = Vector2(-30, 48)
+AmmoCount = {
+1: -1,
+2: -1
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(200, 152)
+zoom = Vector2(2.5, 2.5)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 255.0
+offset_top = 36.0
+offset_right = 402.0
+offset_bottom = 59.0
+theme_override_fonts/font = ExtResource("6_n6srs")
+theme_override_font_sizes/font_size = 0
+text = "Thanks for playing!"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 256.0
+offset_top = 64.0
+offset_right = 403.0
+offset_bottom = 176.0
+theme_override_fonts/font = ExtResource("6_n6srs")
+text = "Game by:
+     Anthony
+     Sasha
+     Shane
+     Adam"

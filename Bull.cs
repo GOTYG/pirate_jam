@@ -69,7 +69,7 @@ public partial class Bull : Sprite2D, IInteractable
             var bridgeOverIt = _obstacles.GetBridgeWithStatus(currentTile, _tileMap, isUp: false) != null;
             var isInPit = isOverPit && !bullInIt && !bullClaimedIt && !bridgeOverIt;
 
-            _obstacles.IsHitButton(currentTile, _tileMap);
+            if(currentTile != _GetCurrentTilePosition()) _obstacles.IsHitButton(currentTile, _tileMap);
 
 
             if (wouldHitImpass || isInPit) break;

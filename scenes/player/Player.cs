@@ -171,7 +171,7 @@ public partial class Player : Area2D
             SelectDirection(Vector2I.Right);
         }
         else if (Input.IsActionJustPressed("move_confirm")
-                 && AmmoCount[(int)_weapon.Name] > 0
+                 && AmmoCount[(int)_weapon.Name] != 0
                  && _selectedDirection != Vector2I.Zero)
         {
             GetNode<AudioStreamPlayer>("Sounds/BowShoot").Play();
@@ -182,7 +182,7 @@ public partial class Player : Area2D
 
     private void _ProcessOmnidirectionalSpecialMove()
     {
-        if (Input.IsActionJustPressed("move_confirm") && AmmoCount[(int)_weapon.Name] > 0)
+        if (Input.IsActionJustPressed("move_confirm") && AmmoCount[(int)_weapon.Name] != 0)
         {
             GetNode<AudioStreamPlayer>("Sounds/WhipSound").Play();
             ProcessSpecialMove();
