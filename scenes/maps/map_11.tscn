@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=4 uid="uid://dlt5cw7s3afly"]
+[gd_scene load_steps=7 format=4 uid="uid://dlt5cw7s3afly"]
 
 [ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_3klnf"]
 [ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="2_eca6b"]
 [ext_resource type="PackedScene" uid="uid://cxn0rpgsso3ui" path="res://obstacles.tscn" id="3_af0yu"]
 [ext_resource type="PackedScene" uid="uid://08ylpklbdwfi" path="res://bull.tscn" id="4_j0rjs"]
 [ext_resource type="PackedScene" uid="uid://bixeqh07t6dnb" path="res://scenes/player/player.tscn" id="6_cfml1"]
+[ext_resource type="FontFile" uid="uid://cifqecryg7771" path="res://art/fonts/Macondo-Regular.ttf" id="6_n6srs"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_3klnf")
@@ -82,7 +83,6 @@ position = Vector2(80, 211)
 position = Vector2(49, 209)
 
 [node name="Player" parent="." instance=ExtResource("6_cfml1")]
-z_index = 2
 position = Vector2(-30, 48)
 AmmoCount = {
 1: -1,
@@ -94,17 +94,20 @@ position = Vector2(200, 152)
 zoom = Vector2(2.5, 2.5)
 
 [node name="Label" type="Label" parent="."]
-offset_left = 235.0
+offset_left = 255.0
 offset_top = 36.0
-offset_right = 382.0
+offset_right = 402.0
 offset_bottom = 59.0
+theme_override_fonts/font = ExtResource("6_n6srs")
+theme_override_font_sizes/font_size = 0
 text = "Thanks for playing!"
 
 [node name="Label2" type="Label" parent="."]
-offset_left = 235.0
-offset_top = 63.0
-offset_right = 382.0
-offset_bottom = 86.0
+offset_left = 256.0
+offset_top = 64.0
+offset_right = 403.0
+offset_bottom = 176.0
+theme_override_fonts/font = ExtResource("6_n6srs")
 text = "Game by:
      Anthony
      Sasha

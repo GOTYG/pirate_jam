@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://cjfyqadeb2cgf"]
+[gd_scene load_steps=9 format=4 uid="uid://cjfyqadeb2cgf"]
 
 [ext_resource type="TileSet" uid="uid://drwrqlfimhyun" path="res://art/base_tile_set.tres" id="1_b6icf"]
 [ext_resource type="Script" path="res://scenes/maps/Map.cs" id="1_sbmji"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://08ylpklbdwfi" path="res://bull.tscn" id="5_lk3wj"]
 [ext_resource type="PackedScene" uid="uid://di7p6vqn5xxc0" path="res://bridge.tscn" id="6_skjth"]
 [ext_resource type="PackedScene" uid="uid://s5bysbi848gh" path="res://button.tscn" id="7_b66bi"]
+[ext_resource type="FontFile" uid="uid://cifqecryg7771" path="res://art/fonts/Macondo-Regular.ttf" id="8_ihp6k"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_sbmji")
@@ -40,3 +41,14 @@ AmmoCount = {
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(200, 152)
 zoom = Vector2(2.5, 2.5)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 27.0
+offset_top = 233.0
+offset_right = 126.0
+offset_bottom = 256.0
+theme_override_fonts/font = ExtResource("8_ihp6k")
+theme_override_font_sizes/font_size = 0
+text = "Press 2 to transform
+WASD to aim while transformed
+Spacebar to shoot"
