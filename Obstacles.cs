@@ -70,7 +70,7 @@ public partial class Obstacles : Node
         return _buttons.Where(button => button.IsInteractable).ToList();
     }
 
-    public Button? IsHitButton(Vector2I tile, TileMapLayer tileMap)
+    public void IsHitButton(Vector2I tile, TileMapLayer tileMap)
     {
         var buttons = GetInteractableButtons();
         foreach (var button in buttons)
@@ -78,11 +78,11 @@ public partial class Obstacles : Node
             if (tile == tileMap.LocalToMap(button.Position))
             {
                 button.Press();
-                return button;
+                
             }
         }
 
-        return null;
+
     }
 
 

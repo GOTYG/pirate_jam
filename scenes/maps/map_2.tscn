@@ -34,7 +34,7 @@ z_index = 2
 position = Vector2(-30, 48)
 AmmoCount = {
 1: 5,
-2: 5
+2: 0
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]

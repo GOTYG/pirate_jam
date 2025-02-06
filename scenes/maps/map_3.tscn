@@ -39,7 +39,7 @@ position = Vector2(109, 47)
 z_index = 2
 position = Vector2(-30, 48)
 AmmoCount = {
-1: 5,
+1: 0,
 2: 5
 }
 
